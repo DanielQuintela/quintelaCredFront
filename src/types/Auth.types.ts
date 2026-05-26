@@ -14,7 +14,7 @@ export interface AuthResponse {
 
 export interface AuthContextType {
   user: User | null
-  token: string | null
+  loading: boolean
   signIn: (data: LoginData) => Promise<void>
   logout: () => void
 }
