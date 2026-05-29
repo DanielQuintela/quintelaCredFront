@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import type { LoginData } from "../types/Login.types"
 import type { AuthResponse, User } from "../types/Auth.types"
 import { api } from "../lib/Axios"
@@ -15,13 +15,13 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
       data
     )
 
-    const { token } = response.data
+    const { data: { token } } = response.data
 
     localStorage.setItem('@token', token)
-
+    
     api.defaults.headers.common.Authorization = `Bearer ${token}`
 
-    const meResponse = await api.get<User>('/auth/me')
+    const meResponse = await api.get<User>('/auth/me/')
 
     setUser(meResponse.data)
   }
@@ -34,30 +34,26 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
     setUser(null)
   }
 
-  useEffect(() => {
-    async function loadUser() {
-      try {
-        const token = localStorage.getItem('@token')
+  async function loadUser() {
+    try {
+      const token = localStorage.getItem('@token')
 
-        if (!token) {
-          return
-        }
-
-        api.defaults.headers.common.Authorization = `Bearer ${token}`
-
-        const response = await api.get<User>('/auth/me')
-
-        setUser(response.data)
-
-      } catch {
-        logout()
-      } finally {
-        setLoading(false)
+      if (!token) {
+        return
       }
-    }
 
-    loadUser()
-  }, [])
+      api.defaults.headers.common.Authorization = `Bearer ${token}`
+
+      const response = await api.get<User>('/auth/me')
+
+      setUser(response.data)
+
+    } catch {
+      logout()
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <AuthContext.Provider
@@ -66,6 +62,7 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
         loading,
         signIn,
         logout,
+        loadUser,
       }}
     >
       {children}

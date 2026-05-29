@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../hooks/UseAuth'
 
-import { useAuth } from '../contexts/AuthContext'
 
 export function LoginPage() {
   const navigate = useNavigate()
@@ -21,8 +21,12 @@ export function LoginPage() {
       })
 
       navigate('/dashboard')
-    } catch (error) {
-      alert(error.message || 'Erro ao realizar login')
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        alert(error.message)
+      } else {
+        alert('Erro ao realizar login')
+      }
     }
   }
 

@@ -8,8 +8,9 @@ export interface User {
 }
 
 export interface AuthResponse {
-  token: string
-  user: User
+  data: {
+    token: string
+  }
 }
 
 export interface AuthContextType {
@@ -17,4 +18,5 @@ export interface AuthContextType {
   loading: boolean
   signIn: (data: LoginData) => Promise<void>
   logout: () => void
+  loadUser: () => void
 }
