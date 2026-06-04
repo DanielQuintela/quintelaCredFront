@@ -36,19 +36,21 @@ export function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-950 text-slate-100 px-4">
+    <div className="fixed inset-0 w-screen h-screen flex flex-col items-center justify-center bg-slate-600 dark:bg-slate-950 
+    text-slate-100 px-4 z-50 overflow-y-auto">
+    
+    {/* Container Principal / Card com bordas e fundo bem definidos */}
+    <div className="w-full max-w-md bg-slate-900/60 border border-slate-800 p-8 rounded-2xl shadow-2xl backdrop-blur-md my-auto">
       
-      {/* Container Principal / Card */}
-      <div className="w-full max-w-md bg-slate-900/50 border border-slate-800 p-8 rounded-2xl shadow-2xl backdrop-blur-sm">
-        
-        {/* Header do Card */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-extrabold tracking-tight text-white mb-2">
-            quintela<span className="text-emerald-500">Cred</span>
-          </h1>
-          <p className="text-sm text-slate-400">
-            Análise de taxas e soluções financeiras.
-          </p>
+      {/* Header do Card */}
+      <div className="text-center mb-8">
+        {/* 🌟 Forçamos o text-slate-100 com o modificador '!' para garantir o contraste perfeito em qualquer tema */}
+        <h1 className="text-3xl font-extrabold tracking-tight text-slate-100! mb-2">
+          quintela<span className="text-emerald-400">Cred</span>
+        </h1>
+        <p className="text-sm text-slate-400">
+          Sistema de cálculos e taxas.
+        </p>
         </div>
 
         {/* Formulário */}
@@ -57,7 +59,7 @@ export function LoginPage() {
           {/* Input Email */}
           <div className="space-y-1.5">
             <label className="text-xs font-medium text-slate-400 uppercase tracking-wider">
-              E-mail corporativo
+              E-mail
             </label>
             <div className="relative flex items-center">
               <Mail className="absolute left-3 text-slate-500 h-5 w-5" />
@@ -65,7 +67,8 @@ export function LoginPage() {
                 type="email"
                 required
                 placeholder="nome@quintelacred.com"
-                className="w-full bg-slate-950/60 border border-slate-800 p-3 pl-11 rounded-xl text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                className="w-full bg-slate-950/60 border border-slate-800 p-3 pl-11 rounded-xl text-sm text-slate-200 
+                placeholder-slate-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -78,9 +81,10 @@ export function LoginPage() {
               <label className="text-xs font-medium text-slate-400 uppercase tracking-wider">
                 Senha de acesso
               </label>
-              <a href="#" className="text-xs text-emerald-500 hover:underline transition-all">
+              {/* TODO: Implementar funcionalidade de "Esqueci minha senha" */}
+              {/* <a href="#" className="text-xs text-emerald-500 hover:underline transition-all">
                 Esqueceu a senha?
-              </a>
+              </a> */}
             </div>
             <div className="relative flex items-center">
               <Lock className="absolute left-3 text-slate-500 h-5 w-5" />
@@ -88,7 +92,8 @@ export function LoginPage() {
                 type={showPassword ? 'text' : 'password'}
                 required
                 placeholder="••••••••"
-                className="w-full bg-slate-950/60 border border-slate-800 p-3 pl-11 pr-11 rounded-xl text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                className="w-full bg-slate-950/60 border border-slate-800 p-3 pl-11 pr-11 rounded-xl text-sm text-slate-200 
+                placeholder-slate-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -102,24 +107,27 @@ export function LoginPage() {
             </div>
           </div>
 
-          {/* Opções extras */}
-          <div className="flex items-center">
+          {/* TODO: Opções extras */}
+          {/* <div className="flex items-center">
             <input
               id="remember-me"
               type="checkbox"
-              className="h-4 w-4 rounded border-slate-800 bg-slate-950 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-slate-950"
+              className="h-4 w-4 rounded border-slate-800 bg-slate-950 text-emerald-500 focus:ring-emerald-500 
+              focus:ring-offset-slate-950"
             />
-            {/* TODO: Implementar funcionalidade de "Lembrar-me" */}
+            {/* TODO: Implementar funcionalidade de "Lembrar-me" 
             <label htmlFor="remember-me" className="ml-2 text-xs text-slate-400 cursor-pointer select-none">
               Manter conectado neste dispositivo
             </label>
-          </div>
+          </div> 
+          */}
 
           {/* Botão de Submit */}
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-semibold p-3.5 rounded-xl transition-all shadow-lg shadow-emerald-500/10 active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none"
+            className="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-semibold p-3.5 rounded-xl 
+            transition-all shadow-lg shadow-emerald-500/10 active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none"
           >
             {isLoading ? 'Autenticando...' : 'Acessar Sistema'}
           </button>
