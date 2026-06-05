@@ -1,10 +1,12 @@
 import type { LoginData } from "./Login.types"
 
 export interface User {
-  userId: string
-  userName: string
-  userEmail: string
-  userRole: 'ADMIN' | 'USER'
+  data: {
+    id: string
+    name: string
+    email: string
+    role: 'ADMIN' | 'USER'
+  }
 }
 
 export interface AuthResponse {
