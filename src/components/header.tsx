@@ -1,16 +1,29 @@
 import { useAuth } from '../hooks/UseAuth'
+import { Menu } from 'lucide-react'
+interface HeaderProps {
+  onOpenSidebar: () => void
+}
 
-export function Header() {
+export function Header({ onOpenSidebar }: HeaderProps) {
   const { user } = useAuth()
-
-  // Pega a primeira letra do nome para o avatar caso não tenha imagem
   const userInitials = user?.data.name ? user.data.name.substring(0, 2).toUpperCase() : 'U'
 
   return (
-    <header className="h-16 bg-white dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800/80 px-8 flex items-center justify-between backdrop-blur-sm sticky top-0 z-40">
-      <h2 className="font-semibold text-slate-700 dark:text-slate-200 tracking-wide">
-        Painel Administrativo
-      </h2>
+    <header className="h-16 bg-white dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800/80 px-4 sm:px-8 flex items-center justify-between backdrop-blur-sm sticky top-0 z-40">
+      
+      <div className="flex items-center gap-3">
+        {/* 🌟 BOTÃO MOBILE: Só aparece abaixo de telas 'lg' */}
+        <button
+          onClick={onOpenSidebar}
+          className="p-2 -ml-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 lg:hidden transition-colors"
+        >
+          <Menu size={20} />
+        </button>
+
+        <h2 className="font-semibold text-slate-700 dark:text-slate-200 tracking-wide hidden sm:block">
+          Painel Administrativo
+        </h2>
+      </div>
 
       {/* Bloco de Usuário com Avatar */}
       <div className="flex items-center gap-3 select-none">
