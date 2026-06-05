@@ -22,7 +22,7 @@ export function LoginPage() {
         email,
         password,
       })
-      toast.success('Login realizado com sucesso! Bem-vindo ao quintelaCred.')
+      toast.success('Login realizado com sucesso!')
       navigate('/dashboard')
     } catch (error: unknown) {
       if (error instanceof Error) {

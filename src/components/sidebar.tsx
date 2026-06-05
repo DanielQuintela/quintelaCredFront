@@ -7,14 +7,15 @@ export function Sidebar() {
   const isAdmin = user?.data.role === 'ADMIN'   
 
   return (
-    <aside className="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800/80 
-    flex flex-col transition-colors duration-200 hidden lg:flex">
+    /* 🌟 FIX: Adicionado 'shrink-0' para a barra lateral nunca ser espremida pelo resto da tela */
+    <aside className="w-64 shrink-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800/80 
+    flex-col transition-colors duration-200 hidden lg:flex">
       
       {/* Brand/Logo */}
       <div className="h-16 flex items-center px-6 border-b border-slate-200 dark:border-slate-800/80">
-        <h1 className="font-extrabold text-xl tracking-tight text-slate-900 dark:text-white">
+        <Link to="/dashboard" className="font-black text-xl tracking-tight text-slate-900 dark:text-white whitespace-nowrap">
           quintela<span className="text-emerald-500">Cred</span>
-        </h1>
+        </Link>
       </div>
 
       {/* Links de Navegação */}
