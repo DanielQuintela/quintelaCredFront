@@ -21,9 +21,9 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
     
     api.defaults.headers.common.Authorization = `Bearer ${token}`
 
-    const meResponse = await api.get<User>('/auth/me/')
+    const userResponse = await api.get<User>('/auth/user/')
 
-    setUser(meResponse.data)
+    setUser(userResponse.data)
   }
 
   function logout() {
