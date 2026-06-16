@@ -8,6 +8,16 @@ export interface Tax {
   value: number
   cardFlag: CardFlag
   type: TaxType
-  bankName: string
-  description: string
+  bankName: string | null
+  description: string | null
+
+  createdAt: string
+  updatedAt: string
+}
+
+export interface CreateTaxDTO {
+  installmentsNumber: number
+  value: number
+  cardFlag: 'MASTER' | 'VISA'
+  type: 'LIBERADO' | 'LIMITE'
 }
