@@ -4,6 +4,8 @@ import { DashboardPage } from '../pages/dashBoardPage'
 import { ProtectedRoute } from './ProtectedRoutes'
 import { AdminRoute } from './AdminRoutes'
 import { TaxPage } from '../pages/taxPage'
+import { CreateTaxPage } from '../pages/createTaxPage'
+import { EditTaxPage } from '../pages/editarTaxPage'
 
 
 
@@ -27,6 +29,23 @@ export function AppRoutes() {
             </AdminRoute>
           }
         />
+        <Route
+          path="/tax/new"
+          element={
+            <AdminRoute>
+              <CreateTaxPage />
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="/tax/:id/edit"
+          element={
+            <AdminRoute>
+              <EditTaxPage />
+            </AdminRoute>
+          }
+        />        
       </Routes>
     </BrowserRouter>
   )

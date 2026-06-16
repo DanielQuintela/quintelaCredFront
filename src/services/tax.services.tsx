@@ -1,7 +1,7 @@
 
 import { api } from '../lib/Axios'
+import type { TaxFormData } from '../schemas/tax.schemas'
 import type { Tax } from '../types/Tax.types'
-
 
 export const TaxService = {
   async findAll() {
@@ -10,10 +10,31 @@ export const TaxService = {
     return response.data
   },
 
-//   TODO: PAREI ALINHANDO AS ROTAS DAQUI COM O BACKEND
+  async findById(id: string) {
+    const response = await api.get<Tax>(
+      `/tax/${id}`
+    )
 
-  async create(taxData: Omit<Tax, 'id'>) {
-    const response = await api.post<Tax>('/tax', taxData)
+    return response.data
+  },
+
+  async create(data: TaxFormData) {
+    const response = await api.post(
+      '/tax',
+      data
+    )
+
+    return response.data
+  },
+
+  async update(
+    id: string,
+    data: TaxFormData,
+  ) {
+    const response = await api.put(
+      `/tax/${id}`,
+      data,
+    )
 
     return response.data
   },
