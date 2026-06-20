@@ -1,16 +1,17 @@
+import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export function BackButton() {
   const navigate = useNavigate()
 
     return (
-
         <button
             type="button"
             onClick={() => navigate(-1)}
-            className="mb-4 px-4 py-2 border rounded-lg hover:bg-gray-100"
-            >
-            ← Voltar
+            className="mb-4 flex items-center gap-2 text-slate-600 hover:text-slate-900"
+        >
+            <ArrowLeft size={18} />
+            Voltar
         </button>
     )
 }
