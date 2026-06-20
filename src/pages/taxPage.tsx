@@ -4,6 +4,7 @@ import { Pencil, Trash2, Plus } from 'lucide-react'
 import type { Tax } from '../types/Tax.types'
 import { TaxService } from '../services/tax.services'
 import { MainLayout } from '../components/layout/mainDashboardLayout'
+import { BackButton } from '../components/backButton'
 
 
 
@@ -39,6 +40,7 @@ export function TaxPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
+            <BackButton />
             <h1 className="text-3xl font-bold">
               Taxas
             </h1>
