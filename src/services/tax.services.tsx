@@ -11,16 +11,14 @@ export const TaxService = {
   },
 
   async findById(id: string) {
-    const response = await api.get<Tax>(
-      `/tax/${id}`
-    )
+    const response = await api.get<Tax>(`/tax/${id}`)
 
     return response.data
   },
 
   async create(data: TaxFormData) {
     const response = await api.post(
-      '/tax',
+      '/tax/',
       data
     )
 
@@ -31,10 +29,7 @@ export const TaxService = {
     id: string,
     data: TaxFormData,
   ) {
-    const response = await api.put(
-      `/tax/${id}`,
-      data,
-    )
+    const response = await api.put(`/tax/${id}`,data)
 
     return response.data
   },
