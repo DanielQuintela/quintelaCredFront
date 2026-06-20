@@ -46,11 +46,10 @@ export function EditTaxPage() {
   ) {
     if (!id) return
 
-    try {
-    await TaxService.update(id,data
-    )
-
-    navigate('/tax')
+    try { 
+      await TaxService.update(id,data)
+      navigate('/tax')
+      toast.success('Taxa atualizada com sucesso.')
     } catch (error) {
       console.error(error)
       toast.error(error instanceof Error ? error.message : 'Erro ao atualizar a taxa.')

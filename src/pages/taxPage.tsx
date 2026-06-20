@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Pencil, Trash2, Plus } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Pencil, Trash2, Plus, ArrowLeft } from 'lucide-react'
 import type { Tax } from '../types/Tax.types'
 import { TaxService } from '../services/tax.services'
 import { MainLayout } from '../components/layout/mainDashboardLayout'
-import { BackButton } from '../components/backButton'
 
 
 
 export function TaxPage() {
   const [taxes, setTaxes] = useState<Tax[]>([])
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
   useEffect(() => {
     let isMounted = true
@@ -35,12 +35,32 @@ export function TaxPage() {
     }
   }, [])
 
+  const handleDeleteTax = async (id: string) => {
+    if (!window.confirm('Tem certeza que deseja excluir esta taxa?')) {
+      return
+    }
+    try {
+      await TaxService.delete(id)
+      setTaxes((prev) => prev.filter((tax) => tax.id !== id))
+    } catch (error) {
+      console.error(error)
+      alert(error instanceof Error ? error.message : 'Erro ao excluir a taxa.')
+    }
+  }
+
   return (
     <MainLayout>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <BackButton />
+             <button
+                  type="button"
+                  onClick={() => navigate("/dashboard")}
+                  className="mb-4 flex items-center gap-2 text-slate-600 hover:text-slate-900"
+              >
+                  <ArrowLeft size={18} />
+                  Voltar
+              </button>
             <h1 className="text-3xl font-bold">
               Taxas
             </h1>
@@ -139,12 +159,7 @@ export function TaxPage() {
                         <button
                           className="text-red-600 hover:text-red-800"
                           title="Excluir"
-                          onClick={() => {
-                            console.log(
-                              'Excluir:',
-                              tax.id,
-                            )
-                          }}
+                          onClick={() => handleDeleteTax(tax.id)}
                         >
                           <Trash2 size={18} />
                         </button>

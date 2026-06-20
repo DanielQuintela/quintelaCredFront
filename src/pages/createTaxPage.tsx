@@ -16,6 +16,8 @@ export function CreateTaxPage() {
     try {
     await TaxService.create(data)
     navigate('/tax')
+    toast.success('Taxa criada com sucesso.')
+    
     } catch (error) {
       console.error(error)
       toast.error(error instanceof Error ? error.message : 'Erro ao criar a taxa.')
