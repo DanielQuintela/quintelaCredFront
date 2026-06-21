@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import type { LoginData } from "../types/Login.types"
 import type { AuthResponse, User } from "../types/Auth.types"
 import { api } from "../lib/Axios"
@@ -8,6 +8,13 @@ import { AuthContext } from "./AuthContext"
 export function AuthProvider({children}: {children: React.ReactNode}) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
+
+
+  useEffect(() => {
+    loadUser()
+    console.log('AuthProvider montado')
+  }, [])
+
 
   async function signIn(data: LoginData) {
     const response = await api.post<AuthResponse>(
@@ -39,15 +46,16 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
       const token = localStorage.getItem('@token')
 
       if (!token) {
+        setLoading(false)
         return
       }
 
       api.defaults.headers.common.Authorization = `Bearer ${token}`
 
-      const response = await api.get<User>('/auth/me')
+      const response = await api.get<User>('/auth/user/')
 
       setUser(response.data)
-
+      setLoading(false)
     } catch {
       logout()
     } finally {
