@@ -4,7 +4,7 @@ export const taxSchema = z.object({
   installmentsNumber: z.coerce
     .number()
     .min(1, 'Mínimo 1 parcela')
-    .max(12, 'Máximo 12 parcelas'),
+    .max(21, 'Máximo 21 parcelas'),
 
   value: z.coerce
     .number()
