@@ -9,7 +9,13 @@ interface Props {
 }
 
 export function ProtectedRoute({ children }: Props) {
+  // TODO: CORRIGIR ESSA VALIDAÇÃO, AO BUSCAR USUARIO, ELE NÃO DA TEMPO DE RECEBER OS DADOS E RECUSA ABRIR A ROTA
+  // SÓ ABRE QUANDO FAZ LOGIN, PQ SETA USER, MAS AO CARREGAR A PAGINA AO ABRIR O NAVEGADOR ELE NÃO RECUPERAR O TOKEN
+  // CORRIGIR O LOADUSER PQ ELE EXECUTA LOGOFF AO SER CHAMADO 
+  // const { loadUser } = useAuth()
   const { user } = useAuth()
+   
+  // loadUser()
 
   // useEffect (() => {
   //   if (!user) {
