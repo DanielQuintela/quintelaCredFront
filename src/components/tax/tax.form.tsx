@@ -34,6 +34,11 @@ export function TaxForm({ defaultValues, onSubmit }: Props) {
           >
             <option value="MASTER">Mastercard</option>
             <option value="VISA">Visa</option>
+            <option value="ELO">Elo</option>
+            <option value="AMEX">American Express</option>
+            <option value="DINERS">Diners</option>
+            <option value="HIPERCARD">Hipercard</option>
+            <option value="OUTROS">Outros</option>
           </select>
         </div>
 

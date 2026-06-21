@@ -13,6 +13,11 @@ export const taxSchema = z.object({
   cardFlag: z.enum([
     'MASTER',
     'VISA',
+    'ELO',
+    'AMEX',
+    'DINERS',
+    'HIPERCARD',
+    'OUTROS',
   ]),
 
   type: z.enum([
