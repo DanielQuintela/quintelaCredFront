@@ -15,7 +15,7 @@ export const createUserSchema = z.object({
 
   role: z.enum(['ADMIN', 'USER']),
 
-  status: z.enum(['ACTIVE', 'INACTIVE'])
+  status: z.enum(['ACTIVE', 'INACTIVE']).default("ACTIVE")
 })
 
 export const updateUserSchema = z.object({
@@ -29,7 +29,7 @@ export const updateUserSchema = z.object({
 
   role: z.enum(['ADMIN', 'USER']),
 
-  status: z.enum(['ACTIVE', 'INACTIVE'])
+  status: z.enum(['ACTIVE', 'INACTIVE']).optional()
 })
 
 export type CreateUserFormData = z.infer<typeof createUserSchema>

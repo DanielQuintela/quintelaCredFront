@@ -7,6 +7,7 @@ import { TaxPage } from '../pages/taxPage'
 import { CreateTaxPage } from '../pages/createTaxPage'
 import { EditTaxPage } from '../pages/editarTaxPage'
 import { SimulationPage } from '../pages/simulationPage'
+import { CreateUserPage } from '../pages/createUserPage'
 
 
 
@@ -53,6 +54,14 @@ export function AppRoutes() {
             <ProtectedRoute>
               <SimulationPage />
             </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/users/new"
+          element={
+            <AdminRoute>
+              <CreateUserPage />
+            </AdminRoute>
           }
         />
       </Routes>

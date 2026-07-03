@@ -1,6 +1,6 @@
 import { useAuth } from '../hooks/UseAuth'
 import { Link } from 'react-router-dom'
-import { LayoutDashboard, Calculator, BadgeDollarSign, X } from 'lucide-react' // 🌟 Importando o X
+import { LayoutDashboard, Calculator, BadgeDollarSign, X, UsersIcon, ShieldCheck } from 'lucide-react' // 🌟 Importando o X
 
 interface SidebarProps {
   isOpen: boolean
@@ -68,7 +68,10 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           {isAdmin && (
             <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800/60 space-y-1.5">
               <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-3 block mb-1">
-                Configurações
+                <span className="inline-flex items-center gap-1.5">
+                  <ShieldCheck size={12} className="text-emerald-500" />
+                  <span>Configurações de adm</span>
+                </span>
               </span>
               <Link
                 to="/tax"
@@ -77,6 +80,15 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               >
                 <BadgeDollarSign size={18} className="text-slate-400 group-hover:text-emerald-500 transition-colors" />
                 <span>Taxas</span>
+              </Link>
+
+              <Link
+                to="/users/new"
+                onClick={onClose}   
+              className="flex items-center gap-3 p-3 rounded-xl font-medium text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group"
+              >
+                <UsersIcon size={18} className="text-slate-400 group-hover:text-emerald-500 transition-colors" />
+                <span>Usuários</span>
               </Link>
             </div>
           )}
