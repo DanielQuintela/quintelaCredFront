@@ -6,7 +6,7 @@ import type { UserResponse } from '../types/Auth.types'
 import { MainLayout } from '../components/layout/mainDashboardLayout'
 
 
-export function UserListPage() {
+export function UsersPage() {
   const [users, setUsers] = useState<UserResponse[]>([])
   const [loading, setLoading] = useState(true)
 
