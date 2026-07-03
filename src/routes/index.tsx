@@ -6,6 +6,7 @@ import { AdminRoute } from './AdminRoutes'
 import { TaxPage } from '../pages/taxPage'
 import { CreateTaxPage } from '../pages/createTaxPage'
 import { EditTaxPage } from '../pages/editarTaxPage'
+import { SimulationPage } from '../pages/simulationPage'
 
 
 
@@ -45,7 +46,15 @@ export function AppRoutes() {
               <EditTaxPage />
             </AdminRoute>
           }
-        />        
+        />    
+        <Route
+          path="/simulation"
+          element={
+            <ProtectedRoute>
+              <SimulationPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   )

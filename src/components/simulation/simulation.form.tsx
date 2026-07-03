@@ -23,7 +23,7 @@ export function SimulationForm({ loading, onSubmit }: Props) {
   const [cardFlag, setCardFlag] = useState<keyof typeof CARD_FLAGS>('MASTER')
   const [type, setType] = useState<'LIMITE' | 'LIBERADO'>('LIMITE')
 
-  // FUNÇÃO 1: Transforma o que o usuário digita em formato Moeda Real
+  // 🌟 FUNÇÃO 1: Transforma o que o usuário digita em formato Moeda Real
   function handleCurrencyChange(e: React.ChangeEvent<HTMLInputElement>) {
     let value = e.target.value
 
@@ -50,7 +50,7 @@ export function SimulationForm({ loading, onSubmit }: Props) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
 
-    // FUNÇÃO 2: Remove os pontos e troca a vírgula por ponto para mandar um Number puro para a API
+    // 🌟 FUNÇÃO 2: Remove os pontos e troca a vírgula por ponto para mandar um Number puro para a API
     const rawAmount = Number(
       amount
         .replace(/\./g, '') // Remove os pontos de milhar
