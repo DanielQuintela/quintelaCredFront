@@ -6,7 +6,7 @@ export const UserService = {
 
     async create(data: CreateUserFormData) {
         const response = await api.post(
-            '/user/', data
+            '/auth/register', data
         )
         return response.data
     },
