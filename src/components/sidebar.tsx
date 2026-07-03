@@ -83,7 +83,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               </Link>
 
               <Link
-                to="/users/new"
+                to="/users"
                 onClick={onClose}   
               className="flex items-center gap-3 p-3 rounded-xl font-medium text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group"
               >

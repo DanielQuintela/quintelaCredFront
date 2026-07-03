@@ -8,6 +8,7 @@ import { CreateTaxPage } from '../pages/createTaxPage'
 import { EditTaxPage } from '../pages/editarTaxPage'
 import { SimulationPage } from '../pages/simulationPage'
 import { CreateUserPage } from '../pages/createUserPage'
+import { UserListPage } from '../pages/listUsersPage'
 
 
 
@@ -57,10 +58,18 @@ export function AppRoutes() {
           }
         />
         <Route
-          path="/users/new"
+          path="/user/new"
           element={
             <AdminRoute>
               <CreateUserPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <AdminRoute>
+              <UserListPage />
             </AdminRoute>
           }
         />

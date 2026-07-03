@@ -9,6 +9,15 @@ export interface User {
   }
 }
 
+export interface UserResponse {
+  id: string
+  name: string
+  email: string
+  role: 'ADMIN' | 'USER'
+  status: 'ACTIVE' | 'INACTIVE'
+  createdAt: string
+  updatedAt: string
+}
 export interface AuthResponse {
   data: {
     token: string
