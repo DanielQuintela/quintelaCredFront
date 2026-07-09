@@ -7,9 +7,10 @@ interface HeaderProps {
 
 export function Header({ onOpenSidebar }: HeaderProps) {
   const { user, logout } = useAuth() 
-  let role = "Operador"
+
 
   const userInitials = user?.data.name ? user.data.name.substring(0, 2).toUpperCase() : 'U'
+  let role = "Operador"
   if (user?.data.role == "ADMIN") {
     role = "Administrador"
   }
@@ -27,7 +28,7 @@ export function Header({ onOpenSidebar }: HeaderProps) {
         </button>
 
         <h2 className="font-semibold text-slate-700 dark:text-slate-200 tracking-wide hidden sm:block">
-          Painel Administrativo
+          {role === "Administrador" ? "Painel Administrativo" : "Painel do Usuário"}
         </h2>
       </div>
 
