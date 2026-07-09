@@ -27,7 +27,7 @@ export const updateUserSchema = z.object({
     .string()
     .email('Email inválido'),
 
-  role: z.enum(['ADMIN', 'USER']),
+  role: z.enum(['ADMIN', 'USER']).optional(),
 
   status: z.enum(['ACTIVE', 'INACTIVE']).optional()
 })

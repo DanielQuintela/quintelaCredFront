@@ -23,6 +23,14 @@ export interface UpdateUserData {
   name: string
   email: string
 
+  role?: UserRole
+  status?: UserStatus
+}
+
+export type UserFormValues = {
+  name: string
+  email: string
+  password: string
   role: UserRole
   status: UserStatus
 }

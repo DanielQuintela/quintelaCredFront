@@ -9,6 +9,7 @@ import { EditTaxPage } from '../pages/editarTaxPage'
 import { SimulationPage } from '../pages/simulationPage'
 import { CreateUserPage } from '../pages/createUserPage'
 import { UsersPage } from '../pages/usersPage'
+import { EditUserPage } from '../pages/editarUserPage'
 
 
 
@@ -40,7 +41,6 @@ export function AppRoutes() {
             </AdminRoute>
           }
         />
-
         <Route
           path="/tax/:id/edit"
           element={
@@ -73,6 +73,14 @@ export function AppRoutes() {
             </AdminRoute>
           }
         />
+         <Route
+          path="/user/:id/edit"
+          element={
+            <AdminRoute>
+              <EditUserPage />
+            </AdminRoute>
+          }
+        />    
       </Routes>
     </BrowserRouter>
   )

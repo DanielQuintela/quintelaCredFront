@@ -11,7 +11,7 @@ export function CreateUserPage() {
   async function handleSubmit(data: CreateUserFormData) {
     await UserService.create(data)
 
-    navigate('/user')
+    navigate('/users')
   }
 
   return (
