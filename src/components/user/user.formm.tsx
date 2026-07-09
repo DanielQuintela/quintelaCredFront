@@ -3,14 +3,18 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import {
   useForm,
   type Resolver,
-  type SubmitHandler,
 } from 'react-hook-form'
 
-import {createUserSchema, type CreateUserFormData  } from '../../schemas/user.schema'
+import {
+  createUserSchema,
+  updateUserSchema,
+} from '../../schemas/user.schema'
+import type { UserFormValues } from '../../types/User.types'
+
 
 interface Props {
-  defaultValues?: CreateUserFormData
-  onSubmit: SubmitHandler<CreateUserFormData>
+  defaultValues?: Partial<UserFormValues>
+  onSubmit: (data: UserFormValues) => void | Promise<void>
 
   submitLabel?: string
   cancelRoute?: string
@@ -23,13 +27,14 @@ export function UserForm({
   cancelRoute = '/users',
 }: Props) {
   const navigate = useNavigate()
+  const isEditMode = submitLabel === 'Atualizar Usuario'
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<CreateUserFormData>({
-    resolver: zodResolver(createUserSchema) as Resolver<CreateUserFormData>,
+  } = useForm<UserFormValues>({
+    resolver: zodResolver(isEditMode ? updateUserSchema : createUserSchema) as Resolver<UserFormValues>,
     defaultValues,
   })
 
@@ -91,31 +96,34 @@ export function UserForm({
         )}
       </div>
 
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <div className="flex flex-col">
-          <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
-            Senha temporária
-          </label>
+        {!isEditMode && (
+          <div className="flex flex-col">
+            <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
+              Senha temporária
+            </label>
 
-          <input
-            type="password"
-            placeholder="********"
-            {...register('password')}
-            className={`w-full bg-slate-50 dark:bg-slate-950 border rounded-xl p-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-1 transition-all ${
-              errors.password
-                ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20'
-                : 'border-slate-200 dark:border-slate-800 focus:border-emerald-500 focus:ring-emerald-500'
-            }`}
-          />
+            <input
+              type="password"
+              placeholder="********"
+              {...register('password')}
+              className={`w-full bg-slate-50 dark:bg-slate-950 border rounded-xl p-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-1 transition-all ${
+                errors.password
+                  ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20'
+                  : 'border-slate-200 dark:border-slate-800 focus:border-emerald-500 focus:ring-emerald-500'
+              }`}
+            />
 
-          {errors.password && (
-            <p className="text-rose-500 text-xs font-medium mt-1.5">
-              {errors.password.message}
-            </p>
-          )}
-        </div>
+            {errors.password && (
+              <p className="text-rose-500 text-xs font-medium mt-1.5">
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+        )}
 
-        <div className="flex flex-col">
+        <div className={`flex flex-col ${isEditMode ? 'sm:col-span-2' : ''}`}>
           <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
             Perfil
           </label>

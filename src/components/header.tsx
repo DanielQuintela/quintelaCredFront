@@ -7,8 +7,12 @@ interface HeaderProps {
 
 export function Header({ onOpenSidebar }: HeaderProps) {
   const { user, logout } = useAuth() 
-  
+  let role = "Operador"
+
   const userInitials = user?.data.name ? user.data.name.substring(0, 2).toUpperCase() : 'U'
+  if (user?.data.role == "ADMIN") {
+    role = "Administrador"
+  }
 
   return (
     <header className="h-16 bg-white dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800/80 px-4 sm:px-8 flex items-center justify-between backdrop-blur-sm sticky top-0 z-40">
@@ -36,7 +40,7 @@ export function Header({ onOpenSidebar }: HeaderProps) {
             Bem-vindo, <span className="font-bold text-slate-800 dark:text-slate-100">{user?.data.name || 'quintela'}</span>
           </p>
           <p className="text-[9px] sm:text-xs font-semibold text-slate-400 dark:text-slate-500 tracking-wide uppercase mt-0.5 leading-tight">
-            Nível: <span className="text-emerald-500 dark:text-emerald-400 font-extrabold">{user?.data.role || 'OPERADOR'}</span>
+            Nível: <span className="text-emerald-500 dark:text-emerald-400 font-extrabold">{role}</span>
           </p>
         </div>
         
