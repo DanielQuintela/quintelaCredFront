@@ -72,12 +72,23 @@ export function SimulationResult({ result }: Props) {
             Taxa aplicada
           </span>
           <span className="text-slate-800 dark:text-slate-200 font-semibold">
+            {result.tax}%
+          </span>
+        </div>
+
+        {/* Linha: Taxa em %*/}
+        <div className="flex justify-between items-center py-1 border-t border-slate-100 dark:border-slate-800/40">
+          <span className="text-slate-400 dark:text-slate-500 flex items-center gap-2">
+            <Percent size={14} />
+            Taxa (%)
+          </span>
+          <span className="text-slate-800 dark:text-slate-200 font-semibold">
             {result.taxPercentage}%
           </span>
         </div>
 
-        {/* Linha: Desconto Retido de Juros */}
-        <div className="flex justify-between items-center py-1 border-t border-slate-100 dark:border-slate-800/40">
+        {/* Linha: Desconto Retido de Juros, Valor do lucro, e da despesa do cliente*/}
+        {/* <div className="flex justify-between items-center py-1 border-t border-slate-100 dark:border-slate-800/40">
           <span className="text-slate-400 dark:text-slate-500 flex items-center gap-2">
             <Percent size={14} />
             Taxa calculada (Custo)
@@ -85,7 +96,7 @@ export function SimulationResult({ result }: Props) {
           <span className="text-rose-500 dark:text-rose-400 font-bold">
             - {formatCurrency(result.taxaCalculada)}
           </span>
-        </div>
+        </div> */}
 
       </div>
 

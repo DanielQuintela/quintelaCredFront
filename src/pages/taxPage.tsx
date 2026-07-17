@@ -125,7 +125,7 @@ export function TaxPage() {
                   {/* Coluna Taxa */}
                   <td className="flex lg:table-cell justify-between lg:text-right items-center p-1 lg:p-4">
                     <span className="lg:hidden text-xs text-slate-400 dark:text-slate-500 uppercase tracking-wider">Taxa</span>
-                    <span className="font-bold text-emerald-600 dark:text-emerald-400 text-base">{tax.value.toFixed(2)}%</span>
+                    <span className="font-bold text-emerald-600 dark:text-emerald-400 text-base">{(tax.value < 1 ? (tax.value * 100).toFixed(2) : tax.value.toFixed(2))}%</span>
                   </td>
 
                   {/* Coluna Ações */}
