@@ -1,33 +1,112 @@
-import { useState } from 'react'
-import type { SimulationRequest } from '../../types/Simulation.types'
+import { useState, useMemo, useEffect } from 'react'
+import type { SimulationRequest, CardFlag } from '../../types/Simulation.types' // 🌟 Importe o CardFlag aqui
 import { Calendar, CreditCard, ShieldCheck } from 'lucide-react'
+import type { Tax } from '../../types/Tax.types'
 
 type Props = {
+  taxes: Tax[]
   loading: boolean
   onSubmit: (data: SimulationRequest) => Promise<void>
 }
 
-const CARD_FLAGS = {
-  MASTER: 'Mastercard',
-  VISA: 'Visa',
-  ELO: 'Elo',
-  AMEX: 'American Express',
-  DINERS: 'Diners',
-  HIPERCARD: 'Hipercard',
-  OUTROS: 'Outros',
-}
-
-export function SimulationForm({ loading, onSubmit }: Props) {
-  const [amount, setAmount] = useState('') // Guarda o valor formatado (ex: "1.250,50")
-  const [installmentsNumber, setInstallmentsNumber] = useState(1)
-  const [cardFlag, setCardFlag] = useState<keyof typeof CARD_FLAGS>('MASTER')
+export function SimulationForm({ taxes, loading, onSubmit }: Props) {
+  const [amount, setAmount] = useState('')
+  const [cardFlag, setCardFlag] = useState<CardFlag | ''>('')
   const [type, setType] = useState<'LIMITE' | 'LIBERADO'>('LIMITE')
+  const [installmentsNumber, setInstallmentsNumber] = useState(1)
 
-  // 🌟 FUNÇÃO 1: Transforma o que o usuário digita em formato Moeda Real
+  // 1. Extraímos as bandeiras únicas de forma memoizada
+  const cardFlags = useMemo(() => {
+    return [...new Set(taxes.map(t => t.cardFlag))] as CardFlag[]
+  }, [taxes])
+
+  // Efeito de Sincronização Inicial
+  // Roda APENAS quando a lista de taxas (taxes) é carregada da API pela primeira vez
+  useEffect(() => {
+    if (taxes.length > 0 && !cardFlag) {
+      // 1. Define a primeira bandeira disponível
+      const firstFlag = cardFlags[0]
+      // Evita setState síncrono dentro do efeito para não disparar renders em cascata.
+      // Adiamos as atualizações para a próxima iteração do loop de eventos.
+      setTimeout(() => {
+        setCardFlag(firstFlag)
+
+        // 2. Define o primeiro tipo disponível para essa bandeira
+        const firstTypes = [
+          ...new Set(taxes.filter(t => t.cardFlag === firstFlag).map(t => t.type))
+        ] as Array<'LIMITE' | 'LIBERADO'>
+        const firstType = firstTypes[0] || 'LIMITE'
+        setType(firstType)
+
+        // 3. Define a primeira parcela disponível para essa combinação
+        const firstInstallments = taxes
+          .filter(t => t.cardFlag === firstFlag && t.type === firstType)
+          .map(t => t.installmentsNumber)
+          .sort((a, b) => a - b)
+        
+        if (firstInstallments.length > 0) {
+          setInstallmentsNumber(firstInstallments[0])
+        }
+      }, 0)
+    }
+  }, [taxes, cardFlags, cardFlag])
+
+  // 2. Seletores derivados para preencher as opções dos <select>
+  const availableTypes = useMemo(() => {
+    if (!cardFlag) return []
+    return [
+      ...new Set(
+        taxes
+          .filter(t => t.cardFlag === cardFlag)
+          .map(t => t.type)
+      )
+    ] as Array<'LIMITE' | 'LIBERADO'>
+  }, [taxes, cardFlag])
+
+  const availableInstallments = useMemo(() => {
+    if (!cardFlag || !type) return []
+    const filtered = taxes
+      .filter(t => t.cardFlag === cardFlag && t.type === type)
+      .map(t => t.installmentsNumber)
+    return [...new Set(filtered)].sort((a, b) => a - b)
+  }, [taxes, cardFlag, type])
+
+  // 3. Funções de alteração manual pelo usuário (mantêm tudo sincronizado ao clicar)
+  function handleCardFlagChange(newFlag: CardFlag) {
+    setCardFlag(newFlag)
+    
+    const nextTypes = [
+      ...new Set(taxes.filter(t => t.cardFlag === newFlag).map(t => t.type))
+    ] as Array<'LIMITE' | 'LIBERADO'>
+    const nextType = nextTypes[0] || 'LIMITE'
+    setType(nextType)
+
+    const nextInstallments = taxes
+      .filter(t => t.cardFlag === newFlag && t.type === nextType)
+      .map(t => t.installmentsNumber)
+      .sort((a, b) => a - b)
+
+    if (nextInstallments.length > 0) {
+      setInstallmentsNumber(nextInstallments[0])
+    }
+  }
+
+  function handleTypeChange(newType: 'LIMITE' | 'LIBERADO') {
+    setType(newType)
+
+    const nextInstallments = taxes
+      .filter(t => t.cardFlag === cardFlag && t.type === newType)
+      .map(t => t.installmentsNumber)
+      .sort((a, b) => a - b)
+
+    if (nextInstallments.length > 0) {
+      setInstallmentsNumber(nextInstallments[0])
+    }
+  }
+
+  // Transforma o que o usuário digita em formato Moeda Real
   function handleCurrencyChange(e: React.ChangeEvent<HTMLInputElement>) {
     let value = e.target.value
-
-    // Remove tudo o que não for dígito numérico
     value = value.replace(/\D/g, '')
 
     if (!value) {
@@ -35,10 +114,7 @@ export function SimulationForm({ loading, onSubmit }: Props) {
       return
     }
 
-    // Converte os dígitos para centavos (ex: 1000 vira 10.00)
     const centsValue = Number(value) / 100
-
-    // Formata usando a regra padrão do Brasil (pt-BR)
     const formatted = new Intl.NumberFormat('pt-BR', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
@@ -50,17 +126,18 @@ export function SimulationForm({ loading, onSubmit }: Props) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
 
-    // 🌟 FUNÇÃO 2: Remove os pontos e troca a vírgula por ponto para mandar um Number puro para a API
     const rawAmount = Number(
       amount
         .replace(/\./g, '') // Remove os pontos de milhar
         .replace(',', '.')  // Substitui a vírgula decimal por ponto
     )
 
+    if (!cardFlag) return
+
     await onSubmit({
       amount: rawAmount,
       installmentsNumber,
-      cardFlag,
+      cardFlag, // Agora é perfeitamente compatível com o tipo CardFlag!
       type,
     })
   }
@@ -68,7 +145,7 @@ export function SimulationForm({ loading, onSubmit }: Props) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       
-      {/* Campo: Valor da Operação (Com Máscara) */}
+      {/* Campo: Valor da Operação */}
       <div className="flex flex-col">
         <label className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5">
           Valor da Simulação
@@ -78,9 +155,8 @@ export function SimulationForm({ loading, onSubmit }: Props) {
             <span>R$</span>
           </div>
           <input
-            /* 🌟 MUDANÇA: Convertido para text para aceitar a máscara visual */
             type="text"
-            inputMode="numeric" // Força o teclado numérico a abrir no smartphone
+            inputMode="numeric"
             placeholder="0,00"
             value={amount}
             onChange={handleCurrencyChange}
@@ -102,19 +178,20 @@ export function SimulationForm({ loading, onSubmit }: Props) {
             <Calendar size={16} className="absolute left-3 text-slate-400 dark:text-slate-500 pointer-events-none" />
             <select
               value={installmentsNumber}
+              disabled={availableInstallments.length === 0}
               onChange={(e) => setInstallmentsNumber(Number(e.target.value))}
-              className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 pl-9 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all cursor-pointer appearance-none"
+              className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 pl-9 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all cursor-pointer appearance-none disabled:opacity-50"
             >
-              {Array.from({ length: 21 }, (_, i) => (
-                <option key={i + 1} value={i + 1}>
-                  {i + 1}x
+              {availableInstallments.map(parcel => (
+                <option key={parcel} value={parcel}>
+                  {parcel}x
                 </option>
               ))}
             </select>
           </div>
         </div>
 
-        {/* Campo: Tipo */}
+        {/* Campo: Tipo / Modalidade */}
         <div className="flex flex-col">
           <label className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5">
             Modalidade
@@ -123,11 +200,15 @@ export function SimulationForm({ loading, onSubmit }: Props) {
             <ShieldCheck size={16} className="absolute left-3 text-slate-400 dark:text-slate-500 pointer-events-none" />
             <select
               value={type}
-              onChange={(e) => setType(e.target.value as 'LIMITE' | 'LIBERADO')}
-              className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 pl-9 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all cursor-pointer appearance-none"
+              disabled={availableTypes.length === 0}
+              onChange={(e) => handleTypeChange(e.target.value as 'LIMITE' | 'LIBERADO')}
+              className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 pl-9 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all cursor-pointer appearance-none disabled:opacity-50"
             >
-              <option value="LIMITE">Limite</option>
-              <option value="LIBERADO">Liberado</option>
+              {availableTypes.map(item => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -143,12 +224,13 @@ export function SimulationForm({ loading, onSubmit }: Props) {
           <CreditCard size={16} className="absolute left-3 text-slate-400 dark:text-slate-500 pointer-events-none" />
           <select
             value={cardFlag}
-            onChange={(e) => setCardFlag(e.target.value as keyof typeof CARD_FLAGS)}
-            className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 pl-9 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all cursor-pointer appearance-none"
+            disabled={cardFlags.length === 0}
+            onChange={(e) => handleCardFlagChange(e.target.value as CardFlag)}
+            className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 pl-9 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all cursor-pointer appearance-none disabled:opacity-50"
           >
-            {Object.entries(CARD_FLAGS).map(([key, label]) => (
-              <option key={key} value={key}>
-                {label}
+            {cardFlags.map(flag => (
+              <option key={flag} value={flag}>
+                {flag}
               </option>
             ))}
           </select>
@@ -159,7 +241,7 @@ export function SimulationForm({ loading, onSubmit }: Props) {
       <div className="pt-2">
         <button
           type="submit"
-          disabled={loading}
+          disabled={loading || !cardFlag}
           className="w-full rounded-xl bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-slate-950 dark:text-white font-bold text-sm p-3.5 shadow-lg shadow-emerald-500/10 transition-all active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
         >
           {loading ? (
