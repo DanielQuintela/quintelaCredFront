@@ -1,12 +1,39 @@
+import { useState } from 'react'
 import type { SimulationResponse } from '../../types/Simulation.types'
 import { formatCurrency } from '../helpers/formatCurrency'
-import { Percent, CreditCard, Wallet, BadgePercent, ArrowRightLeft } from 'lucide-react'
+import { Percent, CreditCard, Wallet, BadgePercent, ArrowRightLeft, Copy, Check } from 'lucide-react'
 
 type Props = {
   result: SimulationResponse
 }
 
 export function SimulationResult({ result }: Props) {
+  const [copied, setCopied] = useState(false)
+
+  // 🌟 Função para montar o texto formatado e copiar para a área de transferência
+  async function handleCopy() {
+    const textToCopy = `
+      📊 *RESUMO DA SIMULAÇÃO*
+
+      💳 *Passa no Cartão:* ${formatCurrency(result.passaNoCartao)}
+      💰 *Valor Recebido:* ${formatCurrency(result.receivedAmount)}
+
+      --------------------------------
+      💵 *Valor Solicitado:* ${formatCurrency(result.amount)}
+      📅 *Plano:* ${result.installmentNumber}x de ${formatCurrency(result.installmentAmount)}
+      📈 *Taxa aplicada:* ${result.taxPercentage}%
+      `.trim()
+
+    try {
+      await navigator.clipboard.writeText(textToCopy)
+      setCopied(true)
+      // Volta o ícone/texto para o estado inicial após 2 segundos
+      setTimeout(() => setCopied(false), 2000)
+    } catch (err) {
+      console.error('Erro ao copiar texto: ', err)
+    }
+  }
+
   return (
     <div className="space-y-6">
       
@@ -100,6 +127,30 @@ export function SimulationResult({ result }: Props) {
 
       </div>
 
+      {/* 📋 Botão para Copiar Resultado */}
+      <div className="pt-2">
+        <button
+          type="button"
+          onClick={handleCopy}
+          className={`w-full flex items-center justify-center gap-2 rounded-xl p-3 text-sm font-bold border transition-all cursor-pointer ${
+            copied
+              ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400'
+              : 'bg-slate-100 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800'
+          }`}
+        >
+          {copied ? (
+            <>
+              <Check size={16} className="text-emerald-500" />
+              <span>Copiado com Sucesso!</span>
+            </>
+          ) : (
+            <>
+              <Copy size={16} />
+              <span>Copiar Resumo da Simulação</span>
+            </>
+          )}
+        </button>
+      </div>
     </div>
   )
 }
