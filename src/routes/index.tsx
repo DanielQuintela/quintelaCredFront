@@ -10,6 +10,7 @@ import { SimulationPage } from '../pages/simulationPage'
 import { CreateUserPage } from '../pages/createUserPage'
 import { UsersPage } from '../pages/usersPage'
 import { EditUserPage } from '../pages/editarUserPage'
+import { ProfilePage } from '../pages/profilePage'
 
 
 
@@ -73,7 +74,7 @@ export function AppRoutes() {
             </AdminRoute>
           }
         />
-         <Route
+        <Route
           path="/user/:id/edit"
           element={
             <AdminRoute>
@@ -81,6 +82,14 @@ export function AppRoutes() {
             </AdminRoute>
           }
         />    
+        <Route 
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   )

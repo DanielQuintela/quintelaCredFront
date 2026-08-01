@@ -15,6 +15,12 @@ export function LoginPage() {
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
+    
+    if (password.length < 6) {
+      toast.error('Senha deve ter 6 caracteres ou mais')
+      return
+    }
+
     setIsLoading(true)
 
     try {
