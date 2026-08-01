@@ -5,11 +5,11 @@ import { Link } from "react-router-dom";
 import { 
   BarChart3, 
   Percent, 
-  Users2, 
-  Landmark, 
+  Users2,
   Calculator, 
   KeyRound, 
-  ArrowRight
+  ArrowRight,
+  TrendingUp
 } from 'lucide-react'
 
 export function DashboardPage() {
@@ -69,9 +69,10 @@ export function DashboardPage() {
                 icon={<Users2 className="h-5 w-5 text-violet-500" />}
               />
               <DashboardCard
-                title="Bancos Parceiros"
-                value="6"
-                icon={<Landmark className="h-5 w-5 text-orange-500" />}
+                title="Simulações Convertidas"
+                value="324"
+                icon={<TrendingUp className="h-5 w-5 text-green-500" />}
+                trend="26% de conversão"
               />
             </div>
           </div>
