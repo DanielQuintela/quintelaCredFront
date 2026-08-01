@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type {
   SimulationRequest,
   SimulationResponse,
@@ -9,10 +9,13 @@ import { SimulationResult } from '../components/simulation/simulation.result'
 import { toast } from 'sonner'
 import { MainLayout } from '../components/layout/mainDashboardLayout'
 import { Calculator } from 'lucide-react'
+import type { Tax } from '../types/Tax.types'
+import { TaxService } from '../services/tax.services'
 
 export function SimulationPage() {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<SimulationResponse | null>(null)
+  const [taxes, setTaxes] = useState<Tax[]>([])
 
   async function handleSimulate(data: SimulationRequest) {
     try {
@@ -25,6 +28,29 @@ export function SimulationPage() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadTaxes() {
+      try {
+        const data = await TaxService.findAll()
+
+        if (isMounted) {
+          setTaxes(data)
+        }
+      } catch (error) {
+        toast.error('Erro ao carregar as taxas.')
+        console.error(error)
+      }
+    }
+
+    loadTaxes()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   return (
     <MainLayout>
@@ -58,6 +84,7 @@ export function SimulationPage() {
             </div>
 
             <SimulationForm
+              taxes={taxes}
               loading={loading}
               onSubmit={handleSimulate}
             />

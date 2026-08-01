@@ -85,7 +85,7 @@ export function TaxForm({ defaultValues, onSubmit }: Props) {
           </label>
           <input
             type="number"
-            step="0.01"
+            step="0.000001"
             placeholder="0,00"
             {...register('value')}
             className={`w-full bg-slate-50 dark:bg-slate-950 border rounded-xl p-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-1 transition-all ${
