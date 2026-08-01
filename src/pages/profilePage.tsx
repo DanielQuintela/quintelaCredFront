@@ -4,7 +4,7 @@ import { BackButton } from '../components/backButton'
 import { useAuth } from '../hooks/UseAuth'
 import { KeyRound, ShieldCheck, Lock } from 'lucide-react'
 import { toast } from 'sonner'
-// import { UserService } from '../services/user.services' // Supondo que você tenha ou crie UserService.changePassword
+import { UserService } from '../services/user.services'
 
 export function ProfilePage() {
   const { user } = useAuth()
@@ -34,9 +34,8 @@ export function ProfilePage() {
     try {
       setLoading(true)
       
-      // Chamada para o seu serviço de atualização de senha
-      // Ex: await UserService.changePassword({ currentPassword, newPassword })
-      
+      await UserService.updatePassword(user?.data.id as string, currentPassword, newPassword)
+    
       toast.success('Senha alterada com sucesso!')
       setCurrentPassword('')
       setNewPassword('')

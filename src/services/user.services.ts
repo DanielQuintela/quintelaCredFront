@@ -33,5 +33,13 @@ export const UserService = {
     async updateStatus(id: string) {
         const response = await api.patch(`/user/${id}/status`)
         return response.data
+    },
+
+    async updatePassword(id: string, currentPassword: string, newPassword: string) {
+        const response = await api.patch(`/user/${id}/password`, {
+            currentPassword,
+            newPassword
+        })
+        return response.data
     }
 }
