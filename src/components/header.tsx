@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom'
 import { useAuth } from '../hooks/UseAuth'
 import { Menu, LogOut } from 'lucide-react'
 
@@ -38,17 +39,21 @@ export function Header({ onOpenSidebar }: HeaderProps) {
         {/* Removido o 'hidden sm:block' para aparecer no mobile e adicionado a formatação da sua imagem */}
         <div className="text-right flex flex-col justify-center">
           <p className="text-[11px] sm:text-sm font-medium text-slate-500 dark:text-slate-400 leading-tight">
-            Bem-vindo, <span className="font-bold text-slate-800 dark:text-slate-100">{user?.data.name || 'quintela'}</span>
+            Bem-vindo, <span className="font-bold text-slate-800 dark:text-slate-100">{user?.data.name || 'Usuário'}</span>
           </p>
           <p className="text-[9px] sm:text-xs font-semibold text-slate-400 dark:text-slate-500 tracking-wide uppercase mt-0.5 leading-tight">
-            Nível: <span className="text-emerald-500 dark:text-emerald-400 font-extrabold">{role}</span>
+            Nível: <span className="text-blue-500 dark:text-blue-500 font-extrabold">{role}</span>
           </p>
         </div>
         
         {/* Avatar Indicador */}
-        <div className="h-9 w-9 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center text-sm border border-emerald-500/20">
-          {userInitials}
-        </div>
+          <NavLink to="/profile" className="h-9 w-9 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-bold flex items-center 
+        justify-center text-sm border border-emerald-500/20">
+            <div >
+              {userInitials}
+            </div>
+          </NavLink>
+       
 
         {/* Divisor Visual */}
         <div className="h-6 w-px bg-slate-200 dark:bg-slate-800  sm:block" />
