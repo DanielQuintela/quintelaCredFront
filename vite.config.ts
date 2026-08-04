@@ -7,4 +7,10 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+
+  // TODO: USAR SOMENTE EM DESENVOLVIMENTO 
+  server: {
+    // 🌟 Libera acesso externo de túneis (localtunnel, cloudflare, ngrok, etc.)
+    allowedHosts: true,
+  },
 })

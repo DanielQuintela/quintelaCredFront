@@ -18,6 +18,6 @@ export interface Tax {
 export interface CreateTaxDTO {
   installmentsNumber: number
   value: number
-  cardFlag: 'MASTER' | 'VISA'
+  cardFlag: 'MASTER' | 'VISA' | 'ELO' | 'AMEX' | 'DINERS' | 'HIPERCARD' | 'OUTROS'
   type: 'LIBERADO' | 'LIMITE'
 }

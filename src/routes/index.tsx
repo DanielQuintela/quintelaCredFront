@@ -6,10 +6,18 @@ import { AdminRoute } from './AdminRoutes'
 import { TaxPage } from '../pages/taxPage'
 import { CreateTaxPage } from '../pages/createTaxPage'
 import { EditTaxPage } from '../pages/editarTaxPage'
+import { SimulationPage } from '../pages/simulationPage'
+import { CreateUserPage } from '../pages/createUserPage'
+import { UsersPage } from '../pages/usersPage'
+import { EditUserPage } from '../pages/editarUserPage'
+import { ProfilePage } from '../pages/profilePage'
+import { useThemeSystem } from '../hooks/ThemeSistem'
 
 
 
 export function AppRoutes() {
+  useThemeSystem()
+
   return (
     <BrowserRouter>
       <Routes>
@@ -37,7 +45,6 @@ export function AppRoutes() {
             </AdminRoute>
           }
         />
-
         <Route
           path="/tax/:id/edit"
           element={
@@ -45,7 +52,47 @@ export function AppRoutes() {
               <EditTaxPage />
             </AdminRoute>
           }
-        />        
+        />    
+        <Route
+          path="/simulation"
+          element={
+            <ProtectedRoute>
+              <SimulationPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user/new"
+          element={
+            <AdminRoute>
+              <CreateUserPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <AdminRoute>
+              <UsersPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/user/:id/edit"
+          element={
+            <AdminRoute>
+              <EditUserPage />
+            </AdminRoute>
+          }
+        />    
+        <Route 
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   )
