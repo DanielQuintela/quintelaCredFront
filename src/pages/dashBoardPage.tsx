@@ -146,7 +146,7 @@ export function DashboardPage() {
                   Meu Perfil & Segurança
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                  Gerencie suas credenciais de acesso e personalize a aparência e temas do sistema.
+                  Gerencie suas credenciais de acesso e personalize o tema do sistema.
                 </p>
               </div>
             </Link>

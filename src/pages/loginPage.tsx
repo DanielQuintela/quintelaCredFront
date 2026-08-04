@@ -3,13 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/UseAuth'
 import { Eye, EyeOff, Lock, Mail, ShieldCheck } from 'lucide-react'
 import { toast } from 'sonner'
-import { useThemeSystem } from '../hooks/ThemeSistem'
 
 export function LoginPage() {
   const navigate = useNavigate()
   const { signIn } = useAuth()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const {theme} = useThemeSystem()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
