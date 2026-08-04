@@ -3,10 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/UseAuth'
 import { Eye, EyeOff, Lock, Mail, ShieldCheck } from 'lucide-react'
 import { toast } from 'sonner'
+import { useThemeSystem } from '../hooks/ThemeSistem'
 
 export function LoginPage() {
   const navigate = useNavigate()
   const { signIn } = useAuth()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const {theme} = useThemeSystem()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -52,7 +55,7 @@ export function LoginPage() {
       <div className="text-center mb-8">
         {/* 🌟 Forçamos o text-slate-100 com o modificador '!' para garantir o contraste perfeito em qualquer tema */}
         <h1 className="text-3xl font-extrabold tracking-tight text-slate-100! mb-2">
-          quintela<span className="text-emerald-400">Cred</span>
+          Marechal<span className="text-blue-500">Cred</span>
         </h1>
         <p className="text-sm text-slate-400">
           Sistema de cálculos e taxas.
@@ -132,8 +135,8 @@ export function LoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-semibold p-3.5 rounded-xl 
-            transition-all shadow-lg shadow-emerald-500/10 active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-slate-950 font-semibold p-3.5 rounded-xl 
+            transition-all shadow-lg shadow-blue-500/10 active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none"
           >
             {isLoading ? 'Autenticando...' : 'Acessar Sistema'}
           </button>
