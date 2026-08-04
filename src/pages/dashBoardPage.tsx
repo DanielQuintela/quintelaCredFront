@@ -89,7 +89,8 @@ export function DashboardPage() {
             {/* Card 1: Ir para Simulador */}
             <Link
               to="/simulation"
-              className="group p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 hover:border-emerald-500/50 transition-all shadow-xs flex flex-col justify-between h-40"
+              className="group p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 
+              hover:border-emerald-500/50 transition-all shadow-xs flex flex-col justify-between h-40"
             >
               <div className="flex items-center justify-between">
                 <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-500">
@@ -142,10 +143,10 @@ export function DashboardPage() {
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 dark:text-white group-hover:text-violet-500 transition-colors">
-                  Alterar Minha Senha
+                  Meu Perfil & Segurança
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                  Mantenha sua conta segura alterando sua credencial de acesso.
+                  Gerencie suas credenciais de acesso e personalize o tema do sistema.
                 </p>
               </div>
             </Link>

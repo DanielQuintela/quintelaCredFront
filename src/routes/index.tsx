@@ -11,10 +11,13 @@ import { CreateUserPage } from '../pages/createUserPage'
 import { UsersPage } from '../pages/usersPage'
 import { EditUserPage } from '../pages/editarUserPage'
 import { ProfilePage } from '../pages/profilePage'
+import { useThemeSystem } from '../hooks/ThemeSistem'
 
 
 
 export function AppRoutes() {
+  useThemeSystem()
+
   return (
     <BrowserRouter>
       <Routes>

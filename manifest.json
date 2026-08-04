@@ -1,6 +1,6 @@
 {
-  "name": "QuintelaCred - Simulador Financeiro",
-  "short_name": "QuintelaCred",
+  "name": "MarechalCred - Simulador Financeiro",
+  "short_name": "MarechalCred",
   "description": "Painel administrativo e simulador financeiro de taxas de crédito.",
   "start_url": "/",
   "display": "standalone",
