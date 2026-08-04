@@ -23,7 +23,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
   // 🌟 Função auxiliar para o ícone mudar de cor se o link estiver ativo
   const iconClass = (isActive: boolean) => `
     transition-colors
-    ${isActive ? 'text-emerald-500' : 'text-slate-400 group-hover:text-emerald-500'}
+    ${isActive ? 'text-blue-500' : 'text-slate-400 group-hover:text-blue-500'}
   `
 
   return (
@@ -47,7 +47,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         {/* Brand/Logo + Botão de fechar */}
         <div className="h-16 flex items-center justify-between px-6 border-b border-slate-200 dark:border-slate-800/80">
           <NavLink to="/dashboard" className="font-black text-xl tracking-tight text-slate-900 dark:text-white whitespace-nowrap">
-            quintela<span className="text-emerald-500">Cred</span>
+            Marechal<span className="text-blue-500">Cred</span>
           </NavLink>
 
           <button
@@ -84,7 +84,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800/60 space-y-1.5">
               <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-3 block mb-1">
                 <span className="inline-flex items-center gap-1.5">
-                  <ShieldCheck size={12} className="text-emerald-500" />
+                  <ShieldCheck size={12} className="text-emerald-400" />
                   <span>Configurações de adm</span>
                 </span>
               </span>
