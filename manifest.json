@@ -3,23 +3,23 @@
   "short_name": "MarechalCred",
   "description": "Painel administrativo e simulador financeiro de taxas de crédito.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#020617",
-  "theme_color": "#10b981",
   "orientation": "portrait-primary",
+  "background_color": "#001b3d",
+  "theme_color": "#01326d",
   "icons": [
     {
-      "src": "/icon-192x192.png",
-      "type": "image/png",
-      "sizes": "192x192"
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
     },
     {
-      "src": "/icon-512x512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ],
-  "style_override": "redirect_to_auth",
   "screenshots": [
     {
       "src": "/screenshot-desktop.png",
