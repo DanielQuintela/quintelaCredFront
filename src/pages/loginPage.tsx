@@ -135,8 +135,7 @@ export function LoginPage() {
             className="w-full bg-blue-500 hover:bg-blue-600 text-slate-950 font-semibold p-3.5 rounded-xl 
             transition-all shadow-lg shadow-blue-500/10 active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none"
           >
-            {isLoading ? <div className="flex items-center-safe gap-2">Carregando... <div className="h-5 w-5 border-3 border-slate-950 border-t-transparent 
-            rounded-full animate-spin" /></div>: 'Acessar Sistema'}
+            {isLoading ? 'Autenticando...' : 'Acessar Sistema'}
           </button>
         </form>
       </div>

@@ -83,8 +83,8 @@ export function TaxPage() {
       
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-xs overflow-hidden">
           { loading ? (
-          <div className="w-full h-40 flex items-center justify-center">
-            <div className="h-8 w-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          <div className="p-12 flex flex-col items-center justify-center gap-3 text-slate-400">
+            <div className="h-6 w-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"/>
              <p className="text-sm font-medium animate-pulse">Sincronizando Taxas...</p>
           </div>
         ) : (
