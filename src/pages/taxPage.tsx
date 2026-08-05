@@ -80,14 +80,14 @@ export function TaxPage() {
 
         {/* Card Content & Table Area */}
         {/* FIX: Removido o max-h e overflow-y-auto daqui. A lista agora se expande livremente */}
-        {loading ? (
+      
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-xs overflow-hidden">
+          { loading ? (
           <div className="w-full h-40 flex items-center justify-center">
             <div className="h-8 w-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin" />
              <p className="text-sm font-medium animate-pulse">Sincronizando Taxas...</p>
           </div>
         ) : (
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-xs overflow-hidden">
-            
             <table className="w-full text-sm text-left block lg:table border-collapse">
               
               <thead className="hidden lg:table-header-group bg-slate-50/70 dark:bg-slate-950/40 border-b border-slate-200 dark:border-slate-800/80 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest select-none">
@@ -161,8 +161,8 @@ export function TaxPage() {
               ))}
               </tbody>
             </table>
+          )}
           </div>
-        )}
         </div>
     </MainLayout>
   )

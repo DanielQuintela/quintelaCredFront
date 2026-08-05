@@ -9,8 +9,8 @@ export default defineConfig({
   ],
 
   // TODO: USAR SOMENTE EM DESENVOLVIMENTO 
-  server: {
-    // 🌟 Libera acesso externo de túneis (localtunnel, cloudflare, ngrok, etc.)
-    allowedHosts: true,
-  },
+  // server: {
+  //   // 🌟 Libera acesso externo de túneis (localtunnel, cloudflare, ngrok, etc.)
+  //   allowedHosts: true,
+  // },
 })
