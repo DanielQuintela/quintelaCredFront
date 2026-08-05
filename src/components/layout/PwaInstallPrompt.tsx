@@ -51,7 +51,7 @@ export function PwaInstallPrompt() {
         {showAndroidBtn && (
           <button
             onClick={handleAndroidInstall}
-            className="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-3 px-5 rounded-xl shadow-xl shadow-emerald-500/10 flex items-center justify-center gap-2.5 transition-all active:scale-95 cursor-pointer text-sm"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-slate-950 font-bold py-3 px-5 rounded-xl shadow-xl shadow-blue-500/10 flex items-center justify-center gap-2.5 transition-all active:scale-95 cursor-pointer text-sm"
           >
             <Download size={18} />
             Instalar QuintelaCred
@@ -83,7 +83,7 @@ export function PwaInstallPrompt() {
             </button>
 
             <div className="flex items-center gap-2.5 border-b border-slate-100 dark:border-slate-800 pb-3">
-              <div className="p-2 bg-slate-50 dark:bg-slate-950 rounded-xl text-emerald-500">
+              <div className="p-2 bg-slate-50 dark:bg-slate-950 rounded-xl text-blue-500">
                 <Smartphone size={22} />
               </div>
               <h2 className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">
@@ -96,15 +96,15 @@ export function PwaInstallPrompt() {
               
               <ol className="space-y-3 list-none pl-0">
                 <li className="flex gap-2.5 items-start">
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold">1</span>
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold">1</span>
                   <span>Toque no botão de <strong>Compartilhar</strong> (o ícone de quadrado com uma seta para cima na barra do Safari).</span>
                 </li>
                 <li className="flex gap-2.5 items-start">
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold">2</span>
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold">2</span>
                   <span>Role a lista para baixo e toque em <strong>"Adicionar à Tela de Início"</strong>.</span>
                 </li>
                 <li className="flex gap-2.5 items-start">
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold">3</span>
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold">3</span>
                   <span>Confirme o nome do aplicativo e toque em <strong>"Adicionar"</strong> no canto superior direito.</span>
                 </li>
               </ol>

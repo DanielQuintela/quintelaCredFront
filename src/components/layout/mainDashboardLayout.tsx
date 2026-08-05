@@ -1,7 +1,6 @@
 import { Sidebar } from '../sidebar'
 import { Header } from '../header'
 import { useState } from 'react'
-import { PwaInstallPrompt } from './PwaInstallPrompt'
 
 interface MainLayoutProps {
   children: React.ReactNode
@@ -23,7 +22,6 @@ export function MainLayout({ children }: MainLayoutProps) {
           {children}
         </main>
       </div>
-      <PwaInstallPrompt />
     </div>
   )
 }

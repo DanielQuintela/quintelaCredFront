@@ -1,6 +1,7 @@
 import { useAuth } from '../hooks/UseAuth'
 import { NavLink } from 'react-router-dom' 
 import { LayoutDashboard, Calculator, BadgeDollarSign, X, UsersIcon, ShieldCheck } from 'lucide-react'
+import { PwaInstallPrompt } from './layout/PwaInstallPrompt'
 
 interface SidebarProps {
   isOpen: boolean
@@ -110,6 +111,8 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                   </>
                 )}
               </NavLink>
+
+               <PwaInstallPrompt />
             </div>
           )}
         </nav>
