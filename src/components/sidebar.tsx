@@ -25,6 +25,10 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
     transition-colors
     ${isActive ? 'text-blue-500' : 'text-slate-400 group-hover:text-blue-500'}
   `
+   const iconSimulationClass = (isActive: boolean) => `
+    transition-colors
+    ${isActive ? 'text-emerald-500' : 'text-slate-400 group-hover:text-emerald-500'}
+  `
 
   return (
     <>
@@ -73,7 +77,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           <NavLink to="/simulation" onClick={onClose} className={linkClass}>
             {({ isActive }) => (
               <>
-                <Calculator size={18} className={iconClass(isActive)} />
+                <Calculator size={18} className={iconSimulationClass(isActive)} />
                 <span>Simulação</span>
               </>
             )}
@@ -84,7 +88,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800/60 space-y-1.5">
               <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-3 block mb-1">
                 <span className="inline-flex items-center gap-1.5">
-                  <ShieldCheck size={12} className="text-emerald-400" />
+                  <ShieldCheck size={12} className="text-blue-400" />
                   <span>Configurações de adm</span>
                 </span>
               </span>

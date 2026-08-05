@@ -47,8 +47,8 @@ export function Header({ onOpenSidebar }: HeaderProps) {
         </div>
         
         {/* Avatar Indicador */}
-          <NavLink to="/profile" className="h-9 w-9 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-bold flex items-center 
-        justify-center text-sm border border-emerald-500/20">
+          <NavLink to="/profile" className="h-9 w-9 rounded-xl bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 font-bold flex items-center 
+        justify-center text-sm border border-blue-500/20">
             <div >
               {userInitials}
             </div>

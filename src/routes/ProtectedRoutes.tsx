@@ -21,7 +21,7 @@ export function ProtectedRoute({ children }: Props) {
   if (loading) {
     return (
       <div className="fixed inset-0 w-screen h-screen flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950 transition-colors duration-200 z-50">
-        <div className="h-8 w-8 border-3 border-emerald-500 border-t-transparent rounded-full animate-spin mb-4" />
+        <div className="h-8 w-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin mb-4" />
         <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 animate-pulse select-none">
           Verificando credenciais...
         </p>

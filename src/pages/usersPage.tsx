@@ -91,7 +91,8 @@ export function UsersPage() {
 
           <Link
             to="/user/new"
-            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-slate-950 dark:text-white font-bold text-sm rounded-xl shadow-lg shadow-emerald-500/10 transition-all active:scale-[0.98] w-full md:w-auto"
+            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-500 text-slate-950 
+            dark:text-white font-bold text-sm rounded-xl shadow-lg shadow-blue-500/10 transition-all active:scale-[0.98] w-full md:w-auto"
           >
             <Plus size={16} />
             Novo Usuário

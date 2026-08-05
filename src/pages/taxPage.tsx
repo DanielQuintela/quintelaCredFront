@@ -8,6 +8,7 @@ import { MainLayout } from '../components/layout/mainDashboardLayout'
 export function TaxPage() {
   const [taxes, setTaxes] = useState<Tax[]>([])
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let isMounted = true
@@ -20,8 +21,11 @@ export function TaxPage() {
         }
       } catch (error) {
         console.error(error)
+      } finally {
+        if (isMounted) setLoading(false)
       }
     })()
+
 
     return () => {
       isMounted = false
@@ -67,7 +71,7 @@ export function TaxPage() {
         <div className="sticky top-16 md:static z-30 bg-slate-50/95 dark:bg-slate-950/95 backdrop-blur-xs py-2 md:p-0 transition-all">
           <Link
             to="/tax/new"
-            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-slate-950 dark:text-white font-bold text-sm rounded-xl shadow-lg shadow-emerald-500/10 transition-all active:scale-[0.98] w-full md:w-auto"
+            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-500 text-slate-950 dark:text-white font-bold text-sm rounded-xl shadow-lg shadow-emerald-500/10 transition-all active:scale-[0.98] w-full md:w-auto"
           >
             <Plus size={16} />
             Nova Taxa
@@ -76,11 +80,16 @@ export function TaxPage() {
 
         {/* Card Content & Table Area */}
         {/* FIX: Removido o max-h e overflow-y-auto daqui. A lista agora se expande livremente */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-xs overflow-hidden">
-          
-          <table className="w-full text-sm text-left block lg:table border-collapse">
+        {loading ? (
+          <div className="w-full h-40 flex items-center justify-center">
+            <div className="h-8 w-8 border-3 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+          </div>
+        ) : (
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-xs overflow-hidden">
             
-            <thead className="hidden lg:table-header-group bg-slate-50/70 dark:bg-slate-950/40 border-b border-slate-200 dark:border-slate-800/80 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest select-none">
+            <table className="w-full text-sm text-left block lg:table border-collapse">
+              
+              <thead className="hidden lg:table-header-group bg-slate-50/70 dark:bg-slate-950/40 border-b border-slate-200 dark:border-slate-800/80 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest select-none">
               <tr>
                 <th className="p-4 pl-6">Bandeira</th>
                 <th className="p-4">Tipo</th>
@@ -152,6 +161,7 @@ export function TaxPage() {
               </tbody>
             </table>
           </div>
+        )}
         </div>
     </MainLayout>
   )
