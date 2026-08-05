@@ -74,7 +74,7 @@ export function LoginPage() {
                 required
                 placeholder="nome@quintelacred.com"
                 className="w-full bg-slate-950/60 border border-slate-800 p-3 pl-11 rounded-xl text-sm text-slate-200 
-                placeholder-slate-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                placeholder-slate-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -88,7 +88,7 @@ export function LoginPage() {
                 Senha de acesso
               </label>
               {/* TODO: Implementar funcionalidade de "Esqueci minha senha" */}
-              {/* <a href="#" className="text-xs text-emerald-500 hover:underline transition-all">
+              {/* <a href="#" className="text-xs text-blue-500 hover:underline transition-all">
                 Esqueceu a senha?
               </a> */}
             </div>
@@ -99,7 +99,7 @@ export function LoginPage() {
                 required
                 placeholder="••••••••"
                 className="w-full bg-slate-950/60 border border-slate-800 p-3 pl-11 pr-11 rounded-xl text-sm text-slate-200 
-                placeholder-slate-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                placeholder-slate-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -135,7 +135,7 @@ export function LoginPage() {
             className="w-full bg-blue-500 hover:bg-blue-600 text-slate-950 font-semibold p-3.5 rounded-xl 
             transition-all shadow-lg shadow-blue-500/10 active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none"
           >
-            {isLoading ? 'Autenticando...' : 'Acessar Sistema'}
+            {isLoading ? <div className="h-8 w-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin" /> : 'Acessar Sistema'}
           </button>
         </form>
       </div>

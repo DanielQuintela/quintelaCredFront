@@ -160,7 +160,9 @@ export function SimulationForm({ taxes, loading, onSubmit }: Props) {
             placeholder="0,00"
             value={amount}
             onChange={handleCurrencyChange}
-            className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 pl-10 text-sm font-semibold text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+            className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl 
+            p-3 pl-10 text-sm font-semibold text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 
+            focus:ring-emerald-500 transition-all"
             required
           />
         </div>
@@ -180,7 +182,9 @@ export function SimulationForm({ taxes, loading, onSubmit }: Props) {
               value={installmentsNumber}
               disabled={availableInstallments.length === 0}
               onChange={(e) => setInstallmentsNumber(Number(e.target.value))}
-              className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 pl-9 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all cursor-pointer appearance-none disabled:opacity-50"
+              className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 pl-9 
+              text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 
+              focus:ring-emerald-500 transition-all cursor-pointer appearance-none disabled:opacity-50"
             >
               {availableInstallments.map(parcel => (
                 <option key={parcel} value={parcel}>

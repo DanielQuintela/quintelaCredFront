@@ -104,7 +104,7 @@ export function UsersPage() {
           
           {loading ? (
             <div className="p-12 flex flex-col items-center justify-center gap-3 text-slate-400">
-              <div className="h-6 w-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+              <div className="h-6 w-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
               <p className="text-sm font-medium animate-pulse">Sincronizando contas de operadores...</p>
             </div>
           ) : users.length === 0 ? (
