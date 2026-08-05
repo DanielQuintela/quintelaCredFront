@@ -4,6 +4,7 @@ import { Pencil, Plus, Trash2, UserCheck, UserX, Users, ArrowLeft, Mail, Shield 
 import { UserService } from '../services/user.services'
 import type { UserResponse } from '../types/Auth.types'
 import { MainLayout } from '../components/layout/mainDashboardLayout'
+import { toast } from 'sonner'
 
 export function UsersPage() {
   const [users, setUsers] = useState<UserResponse[]>([])
@@ -51,6 +52,7 @@ export function UsersPage() {
       setUsers((prev) => prev.filter((user) => user.id !== id))
     } catch (error) {
       console.error(error)
+      toast.error(error instanceof Error ? error.message : 'Erro ao deletar usuário')
     }
   }
 
@@ -59,6 +61,7 @@ export function UsersPage() {
       await UserService.updateStatus(id)
       loadUsers()
     } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao atualizar status do usuário')
       console.error(error)
     }
   }
