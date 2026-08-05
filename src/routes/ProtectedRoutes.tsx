@@ -33,5 +33,11 @@ export function ProtectedRoute({ children }: Props) {
     return <Navigate to="/" replace />
   }
 
+  if (user.data.status === 'INACTIVE') {
+    toast.error('Usuário inativo. Contate o administrador.', {
+      id: 'user-inactive',
+    })
+    return <Navigate to="/" replace />
+  }
   return children
 }
