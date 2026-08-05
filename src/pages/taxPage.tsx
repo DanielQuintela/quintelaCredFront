@@ -82,7 +82,7 @@ export function TaxPage() {
         {/* FIX: Removido o max-h e overflow-y-auto daqui. A lista agora se expande livremente */}
         {loading ? (
           <div className="w-full h-40 flex items-center justify-center">
-            <div className="h-8 w-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin" />
+            <div className="h-8 w-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin" />
              <p className="text-sm font-medium animate-pulse">Sincronizando Taxas...</p>
           </div>
         ) : (
