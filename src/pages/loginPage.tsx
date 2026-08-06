@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/UseAuth'
 import { Eye, EyeOff, Lock, Mail, ShieldCheck } from 'lucide-react'
@@ -13,14 +13,6 @@ export function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const { user, loading } = useAuth()
-  
-    useEffect(() => {
-      if (!loading && !user) {
-        toast.error('Sessão terminada', {
-          id: 'auth-expired', // Evita que o toast duplique na tela em re-renders rápidos
-        })
-      }
-    }, [loading, user])
   
     if (loading) {
       return (
