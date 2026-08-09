@@ -18,12 +18,16 @@ export const taxSchema = z.object({
     'DINERS',
     'HIPERCARD',
     'OUTROS',
+    'VISAMASTER',
+    'ELODEMAISBANDEIRAS',
   ]),
 
   type: z.enum([
     'LIBERADO',
     'LIMITE',
   ]),
+  
+  locationId: z.string().nullable().optional(),
 })
 
 export type TaxFormData = z.infer<
