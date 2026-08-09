@@ -142,7 +142,7 @@ export function TaxPage() {
                   <td className="flex lg:table-cell justify-between items-center p-1 lg:p-4">
                     <span className="lg:hidden text-xs text-slate-400 dark:text-slate-500 uppercase tracking-wider">Localidade</span>
                     <span className="text-xs px-2.5 py-1 rounded-md font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                      {tax.location ? `${tax.location.name}${tax.location.city ? ` - ${tax.location.city}` : ''}` : 'Geral'}
+                      {tax.location ? `${tax.location.name}${tax.location.city ? ` - ${tax.location.city}` : ''}` : 'Padrão'}
                     </span>
                   </td>
 

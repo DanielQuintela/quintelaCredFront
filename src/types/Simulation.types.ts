@@ -5,6 +5,7 @@ export interface SimulationRequest {
   installmentsNumber: number
   cardFlag: CardFlag
   type: 'LIBERADO' | 'LIMITE'
+  locationId?: string | null
 }
 
 export interface SimulationResponse {

@@ -8,6 +8,7 @@ export const taxSchema = z.object({
 
   value: z.coerce
     .number()
+    .max(100000.00, 'A taxa não pode ser maior que 1.000.000,00')
     .min(0.01, 'Informe uma taxa válida'),
 
   cardFlag: z.enum([
