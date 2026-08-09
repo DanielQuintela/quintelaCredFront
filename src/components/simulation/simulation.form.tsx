@@ -1,6 +1,6 @@
-import { useState, useMemo, useEffect } from 'react'
-import type { SimulationRequest, CardFlag } from '../../types/Simulation.types' // 🌟 Importe o CardFlag aqui
-import { Calendar, CreditCard, ShieldCheck } from 'lucide-react'
+import { useState, useMemo } from 'react'
+import type { SimulationRequest, CardFlag } from '../../types/Simulation.types'
+import { Calendar, CreditCard, ShieldCheck, MapPin } from 'lucide-react'
 import type { Tax } from '../../types/Tax.types'
 
 type Props = {
@@ -11,103 +11,110 @@ type Props = {
 
 export function SimulationForm({ taxes, loading, onSubmit }: Props) {
   const [amount, setAmount] = useState('')
-  const [cardFlag, setCardFlag] = useState<CardFlag | ''>('')
-  const [type, setType] = useState<'LIMITE' | 'LIBERADO'>('LIMITE')
-  const [installmentsNumber, setInstallmentsNumber] = useState(1)
+  const [selectedLocationId, setSelectedLocationId] = useState<string>('')
+  
+  // Estados selecionados manualmente
+  const [cardFlagState, setCardFlagState] = useState<CardFlag | null>(null)
+  const [typeState, setTypeState] = useState<'LIMITE' | 'LIBERADO' | null>(null)
+  const [installmentsState, setInstallmentsState] = useState<number | null>(null)
 
-  // 1. Extraímos as bandeiras únicas de forma memoizada
-  const cardFlags = useMemo(() => {
-    return [...new Set(taxes.map(t => t.cardFlag))] as CardFlag[]
+  // 1. Lista única de localidades disponíveis
+  const availableLocations = useMemo(() => {
+    const locMap = new Map<string, { id: string; name: string; city?: string | null }>()
+
+    taxes.forEach((tax) => {
+      if (tax.location) {
+        locMap.set(tax.location.id, {
+          id: tax.location.id,
+          name: tax.location.name,
+          city: tax.location.city,
+        })
+      }
+    })
+
+    return Array.from(locMap.values())
   }, [taxes])
 
-  // Efeito de Sincronização Inicial
-  // Roda APENAS quando a lista de taxas (taxes) é carregada da API pela primeira vez
-  useEffect(() => {
-    if (taxes.length > 0 && !cardFlag) {
-      // 1. Define a primeira bandeira disponível
-      const firstFlag = cardFlags[0]
-      // Evita setState síncrono dentro do efeito para não disparar renders em cascata.
-      // Adiamos as atualizações para a próxima iteração do loop de eventos.
-      setTimeout(() => {
-        setCardFlag(firstFlag)
-
-        // 2. Define o primeiro tipo disponível para essa bandeira
-        const firstTypes = [
-          ...new Set(taxes.filter(t => t.cardFlag === firstFlag).map(t => t.type))
-        ] as Array<'LIMITE' | 'LIBERADO'>
-        const firstType = firstTypes[0] || 'LIMITE'
-        setType(firstType)
-
-        // 3. Define a primeira parcela disponível para essa combinação
-        const firstInstallments = taxes
-          .filter(t => t.cardFlag === firstFlag && t.type === firstType)
-          .map(t => t.installmentsNumber)
-          .sort((a, b) => a - b)
-        
-        if (firstInstallments.length > 0) {
-          setInstallmentsNumber(firstInstallments[0])
-        }
-      }, 0)
+  // 2. Filtro de taxas por localidade (Se vazio, pega apenas taxas sem localidade)
+  const locationTaxes = useMemo(() => {
+    if (selectedLocationId) {
+      return taxes.filter((t) => t.location?.id === selectedLocationId)
     }
-  }, [taxes, cardFlags, cardFlag])
+    return taxes.filter((t) => !t.location)
+  }, [taxes, selectedLocationId])
 
-  // 2. Seletores derivados para preencher as opções dos <select>
+  // 3. Bandeiras disponíveis na localidade
+  const availableCardFlags = useMemo(() => {
+    return [...new Set(locationTaxes.map((t) => t.cardFlag))] as CardFlag[]
+  }, [locationTaxes])
+
+  // DERIVAÇÃO AUTOMÁTICA DA BANDEIRA: Usa o estado do usuário se válido; caso contrário, pega a primeira disponível
+  const activeCardFlag = useMemo(() => {
+    if (cardFlagState && availableCardFlags.includes(cardFlagState)) {
+      return cardFlagState
+    }
+    return availableCardFlags[0] || null
+  }, [cardFlagState, availableCardFlags])
+
+  // 4. Tipos disponíveis para a Bandeira + Localidade ativas
   const availableTypes = useMemo(() => {
-    if (!cardFlag) return []
+    if (!activeCardFlag) return []
     return [
       ...new Set(
-        taxes
-          .filter(t => t.cardFlag === cardFlag)
-          .map(t => t.type)
-      )
+        locationTaxes
+          .filter((t) => t.cardFlag === activeCardFlag)
+          .map((t) => t.type)
+      ),
     ] as Array<'LIMITE' | 'LIBERADO'>
-  }, [taxes, cardFlag])
+  }, [locationTaxes, activeCardFlag])
 
-  const availableInstallments = useMemo(() => {
-    if (!cardFlag || !type) return []
-    const filtered = taxes
-      .filter(t => t.cardFlag === cardFlag && t.type === type)
-      .map(t => t.installmentsNumber)
-    return [...new Set(filtered)].sort((a, b) => a - b)
-  }, [taxes, cardFlag, type])
-
-  // 3. Funções de alteração manual pelo usuário (mantêm tudo sincronizado ao clicar)
-  function handleCardFlagChange(newFlag: CardFlag) {
-    setCardFlag(newFlag)
-    
-    const nextTypes = [
-      ...new Set(taxes.filter(t => t.cardFlag === newFlag).map(t => t.type))
-    ] as Array<'LIMITE' | 'LIBERADO'>
-    const nextType = nextTypes[0] || 'LIMITE'
-    setType(nextType)
-
-    const nextInstallments = taxes
-      .filter(t => t.cardFlag === newFlag && t.type === nextType)
-      .map(t => t.installmentsNumber)
-      .sort((a, b) => a - b)
-
-    if (nextInstallments.length > 0) {
-      setInstallmentsNumber(nextInstallments[0])
+  // DERIVAÇÃO AUTOMÁTICA DO TIPO
+  const activeType = useMemo(() => {
+    if (typeState && availableTypes.includes(typeState)) {
+      return typeState
     }
+    return availableTypes[0] || null
+  }, [typeState, availableTypes])
+
+  // 5. Parcelas disponíveis para Localidade + Bandeira + Tipo ativos
+  const availableInstallments = useMemo(() => {
+    if (!activeCardFlag || !activeType) return []
+    const filtered = locationTaxes
+      .filter((t) => t.cardFlag === activeCardFlag && t.type === activeType)
+      .map((t) => t.installmentsNumber)
+    return [...new Set(filtered)].sort((a, b) => a - b)
+  }, [locationTaxes, activeCardFlag, activeType])
+
+  // DERIVAÇÃO AUTOMÁTICA DA PARCELA
+  const activeInstallmentsNumber = useMemo(() => {
+    if (installmentsState && availableInstallments.includes(installmentsState)) {
+      return installmentsState
+    }
+    return availableInstallments[0] || 1
+  }, [installmentsState, availableInstallments])
+
+  // --- HANDLERS SIMPLES DE MUDANÇA (Sem encadeamento manual) ---
+
+  function handleLocationChange(locId: string) {
+    setSelectedLocationId(locId)
+    setCardFlagState(null)
+    setTypeState(null)
+    setInstallmentsState(null)
+  }
+
+  function handleCardFlagChange(flag: CardFlag) {
+    setCardFlagState(flag)
+    setTypeState(null)
+    setInstallmentsState(null)
   }
 
   function handleTypeChange(newType: 'LIMITE' | 'LIBERADO') {
-    setType(newType)
-
-    const nextInstallments = taxes
-      .filter(t => t.cardFlag === cardFlag && t.type === newType)
-      .map(t => t.installmentsNumber)
-      .sort((a, b) => a - b)
-
-    if (nextInstallments.length > 0) {
-      setInstallmentsNumber(nextInstallments[0])
-    }
+    setTypeState(newType)
+    setInstallmentsState(null)
   }
 
-  // Transforma o que o usuário digita em formato Moeda Real
   function handleCurrencyChange(e: React.ChangeEvent<HTMLInputElement>) {
-    let value = e.target.value
-    value = value.replace(/\D/g, '')
+    const value = e.target.value.replace(/\D/g, '')
 
     if (!value) {
       setAmount('')
@@ -126,25 +133,43 @@ export function SimulationForm({ taxes, loading, onSubmit }: Props) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
 
-    const rawAmount = Number(
-      amount
-        .replace(/\./g, '') // Remove os pontos de milhar
-        .replace(',', '.')  // Substitui a vírgula decimal por ponto
-    )
+    const rawAmount = Number(amount.replace(/\./g, '').replace(',', '.'))
 
-    if (!cardFlag) return
+    if (!activeCardFlag || !activeType) return
 
     await onSubmit({
       amount: rawAmount,
-      installmentsNumber,
-      cardFlag, // Agora é perfeitamente compatível com o tipo CardFlag!
-      type,
+      installmentsNumber: activeInstallmentsNumber,
+      cardFlag: activeCardFlag,
+      type: activeType,
+      locationId: selectedLocationId || null,
     })
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      
+      {/* Campo: Localidade / Bairro */}
+      <div className="flex flex-col">
+        <label className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5">
+          Localidade / Bairro
+        </label>
+        <div className="relative flex items-center">
+          <MapPin size={16} className="absolute left-3 text-slate-400 dark:text-slate-500 pointer-events-none" />
+          <select
+            value={selectedLocationId}
+            onChange={(e) => handleLocationChange(e.target.value)}
+            className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 pl-9 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all cursor-pointer appearance-none"
+          >
+            <option value="">Padrão (Sem localidade)</option>
+            {availableLocations.map((loc) => (
+              <option key={loc.id} value={loc.id}>
+                {loc.name} {loc.city ? `- ${loc.city}` : ''}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
       {/* Campo: Valor da Operação */}
       <div className="flex flex-col">
         <label className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5">
@@ -160,18 +185,15 @@ export function SimulationForm({ taxes, loading, onSubmit }: Props) {
             placeholder="0,00"
             value={amount}
             onChange={handleCurrencyChange}
-            className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl 
-            p-3 pl-10 text-sm font-semibold text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 
-            focus:ring-emerald-500 transition-all"
+            className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 pl-10 text-sm font-semibold text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
             required
           />
         </div>
       </div>
 
-      {/* Grid Duplo: Parcelas e Tipo */}
+      {/* Grid Duplo: Parcelas e Modalidade */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        
-        {/* Campo: Parcelas */}
+        {/* Campo: Parcelamento */}
         <div className="flex flex-col">
           <label className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5">
             Parcelamento
@@ -179,14 +201,12 @@ export function SimulationForm({ taxes, loading, onSubmit }: Props) {
           <div className="relative flex items-center">
             <Calendar size={16} className="absolute left-3 text-slate-400 dark:text-slate-500 pointer-events-none" />
             <select
-              value={installmentsNumber}
+              value={activeInstallmentsNumber}
               disabled={availableInstallments.length === 0}
-              onChange={(e) => setInstallmentsNumber(Number(e.target.value))}
-              className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 pl-9 
-              text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 
-              focus:ring-emerald-500 transition-all cursor-pointer appearance-none disabled:opacity-50"
+              onChange={(e) => setInstallmentsState(Number(e.target.value))}
+              className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 pl-9 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all cursor-pointer appearance-none disabled:opacity-50"
             >
-              {availableInstallments.map(parcel => (
+              {availableInstallments.map((parcel) => (
                 <option key={parcel} value={parcel}>
                   {parcel}x
                 </option>
@@ -195,7 +215,7 @@ export function SimulationForm({ taxes, loading, onSubmit }: Props) {
           </div>
         </div>
 
-        {/* Campo: Tipo / Modalidade */}
+        {/* Campo: Modalidade */}
         <div className="flex flex-col">
           <label className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5">
             Modalidade
@@ -203,12 +223,12 @@ export function SimulationForm({ taxes, loading, onSubmit }: Props) {
           <div className="relative flex items-center">
             <ShieldCheck size={16} className="absolute left-3 text-slate-400 dark:text-slate-500 pointer-events-none" />
             <select
-              value={type}
+              value={activeType || ''}
               disabled={availableTypes.length === 0}
               onChange={(e) => handleTypeChange(e.target.value as 'LIMITE' | 'LIBERADO')}
               className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 pl-9 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all cursor-pointer appearance-none disabled:opacity-50"
             >
-              {availableTypes.map(item => (
+              {availableTypes.map((item) => (
                 <option key={item} value={item}>
                   {item}
                 </option>
@@ -216,7 +236,6 @@ export function SimulationForm({ taxes, loading, onSubmit }: Props) {
             </select>
           </div>
         </div>
-
       </div>
 
       {/* Campo: Bandeira do Cartão */}
@@ -227,16 +246,20 @@ export function SimulationForm({ taxes, loading, onSubmit }: Props) {
         <div className="relative flex items-center">
           <CreditCard size={16} className="absolute left-3 text-slate-400 dark:text-slate-500 pointer-events-none" />
           <select
-            value={cardFlag}
-            disabled={cardFlags.length === 0}
+            value={activeCardFlag || ''}
+            disabled={availableCardFlags.length === 0}
             onChange={(e) => handleCardFlagChange(e.target.value as CardFlag)}
             className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 pl-9 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all cursor-pointer appearance-none disabled:opacity-50"
           >
-            {cardFlags.map(flag => (
-              <option key={flag} value={flag}>
-                {flag}
-              </option>
-            ))}
+            {availableCardFlags.length === 0 ? (
+              <option value="">Nenhuma taxa cadastrada nesta localidade</option>
+            ) : (
+              availableCardFlags.map((flag) => (
+                <option key={flag} value={flag}>
+                  {flag}
+                </option>
+              ))
+            )}
           </select>
         </div>
       </div>
@@ -245,7 +268,7 @@ export function SimulationForm({ taxes, loading, onSubmit }: Props) {
       <div className="pt-2">
         <button
           type="submit"
-          disabled={loading || !cardFlag}
+          disabled={loading || !activeCardFlag || availableInstallments.length === 0}
           className="w-full rounded-xl bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-slate-950 dark:text-white font-bold text-sm p-3.5 shadow-lg shadow-emerald-500/10 transition-all active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
         >
           {loading ? (
@@ -258,7 +281,6 @@ export function SimulationForm({ taxes, loading, onSubmit }: Props) {
           )}
         </button>
       </div>
-
     </form>
   )
 }

@@ -23,6 +23,7 @@ export function EditTaxPage() {
           value: data.value,
           cardFlag: data.cardFlag,
           type: data.type,
+          locationId: data.location?.id ?? null,
         })
       } catch (error) {
         console.error(error)

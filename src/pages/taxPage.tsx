@@ -96,6 +96,7 @@ export function TaxPage() {
                 <th className="p-4">Tipo</th>
                 <th className="p-4 text-center">Parcelas</th>
                 <th className="p-4 text-right">Taxa Aplicada</th>
+                <th className="p-4">Localidade</th>
                 <th className="p-4 text-center pr-6">Ações</th>
               </tr>
             </thead>
@@ -136,6 +137,13 @@ export function TaxPage() {
                   <td className="flex lg:table-cell justify-between lg:text-right items-center p-1 lg:p-4">
                     <span className="lg:hidden text-xs text-slate-400 dark:text-slate-500 uppercase tracking-wider">Taxa</span>
                     <span className="font-bold text-emerald-600 dark:text-emerald-400 text-base">{(tax.value < 1 ? (tax.value * 100).toFixed(2) : tax.value.toFixed(2))}%</span>
+                  </td>
+
+                  <td className="flex lg:table-cell justify-between items-center p-1 lg:p-4">
+                    <span className="lg:hidden text-xs text-slate-400 dark:text-slate-500 uppercase tracking-wider">Localidade</span>
+                    <span className="text-xs px-2.5 py-1 rounded-md font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                      {tax.location ? `${tax.location.name}${tax.location.city ? ` - ${tax.location.city}` : ''}` : 'Padrão'}
+                    </span>
                   </td>
 
                   {/* Coluna Ações */}
