@@ -87,7 +87,7 @@ export function TaxForm({ defaultValues, onSubmit }: Props) {
             ))}
           </select>
           <p className="text-[11px] text-slate-400 mt-1">
-            Deixe em &quot;Geral&quot; se esta taxa for aplicada globalmente quando não houver bairros vinculados.
+            Deixe em &quot;Padrão&quot; se esta taxa for aplicada globalmente quando não houver bairros vinculados.
           </p>
         </div>
 
