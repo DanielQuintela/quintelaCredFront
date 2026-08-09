@@ -79,6 +79,7 @@ export function TaxForm({ defaultValues, onSubmit }: Props) {
             disabled={loadingLocations}
             className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all cursor-pointer disabled:opacity-50"
           >
+            <option value="">Padrão (Sem localidade)</option>
             {locations.map((loc) => (
               <option key={loc.id} value={loc.id}>
                 {loc.name} {loc.city ? `- ${loc.city}` : ''}
