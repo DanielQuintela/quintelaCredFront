@@ -28,7 +28,7 @@ export function TaxForm({ defaultValues, onSubmit }: Props) {
     resolver: zodResolver(taxSchema) as Resolver<TaxFormData>,
     defaultValues: {
       ...defaultValues,
-      locationId: defaultValues?.locationId ?? null,
+      locationId: defaultValues?.locationId ?? '',
     },
   })
 

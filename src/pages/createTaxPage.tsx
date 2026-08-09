@@ -9,17 +9,22 @@ import { BackButton } from '../components/backButton'
 export function CreateTaxPage() {
   const navigate = useNavigate()
 
-  async function handleSubmit(data: TaxFormData) {
-    try {
-      await TaxService.create(data)
-      navigate('/tax')
-      toast.success('Taxa criada com sucesso.')
-    } catch (error) {
-      console.error(error)
-      toast.error(error instanceof Error ? error.message : 'Erro ao criar a taxa.')
+ async function handleSubmit(data: TaxFormData) {
+  try {
+    // Garante que se o campo for string vazia "", envie null para o backend
+    const payload = {
+      ...data,
+      locationId: data.locationId ? data.locationId : null,
     }
-  }
 
+    await TaxService.create(payload)
+    navigate('/tax')
+    toast.success('Taxa criada com sucesso.')
+  } catch (error) {
+    console.error(error)
+    toast.error(error instanceof Error ? error.message : 'Erro ao criar a taxa.')
+  }
+}
   return (
     <MainLayout>
       <div className="max-w-2xl mx-auto space-y-6">
