@@ -1,10 +1,11 @@
-export type CardFlag = 'MASTER' | 'VISA' | 'ELO' | 'AMEX' | 'DINERS' | 'HIPERCARD' | 'OUTROS'
+export type CardFlag = 'MASTER' | 'VISA' | 'ELO' | 'AMEX' | 'DINERS' | 'HIPERCARD' | 'OUTROS' | 'VISAMASTER' | 'ELODEMAISBANDEIRAS'
 
 export interface SimulationRequest {
   amount: number
   installmentsNumber: number
   cardFlag: CardFlag
   type: 'LIBERADO' | 'LIMITE'
+  locationId?: string | null
 }
 
 export interface SimulationResponse {

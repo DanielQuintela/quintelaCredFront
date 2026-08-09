@@ -122,8 +122,8 @@ export function UsersPage() {
             /* Tabela Híbrida (Cards no Mobile, Tabela Fluida no PC) */
             <div className="max-h-155 overflow-y-auto">
               <table className="w-full text-sm text-left block lg:table border-collapse">
-                <thead>
-                  <tr className="bg-slate-50/70 dark:bg-slate-950/40 border-b border-slate-200 dark:border-slate-800/80 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest select-none">
+                <thead className="hidden lg:table-header-group bg-slate-50/70 dark:bg-slate-950/40 border-b border-slate-200 dark:border-slate-800/80 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest select-none">
+                  <tr>
                     <th className="p-4 pl-6">Nome</th>
                     <th className="p-4">Email</th>
                     <th className="p-4">Perfil</th>
