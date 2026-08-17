@@ -41,5 +41,12 @@ export const UserService = {
             newPassword
         })
         return response.data
+    },
+
+    async updateFirstLogin(id: string, firstLogin: boolean) {
+        const response = await api.patch(`/user/${id}/first-login`, {
+            firstLogin
+        })
+        return response.data
     }
 }
