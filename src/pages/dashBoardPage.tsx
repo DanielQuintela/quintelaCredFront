@@ -11,15 +11,24 @@ import {
   ArrowRight,
   TrendingUp
 } from 'lucide-react'
+import { useState } from "react";
+import { FirstLoginModal } from "../components/modal/firstLogin";
 
 export function DashboardPage() {
   const { user } = useAuth()
   const isAdmin = user?.data.role === 'ADMIN'
+  const [showFirstLoginModal, setShowFirstLoginModal] = useState(
+    Boolean(user?.data?.first_login)
+  )
 
   return (
     <MainLayout>
       <div className="space-y-8 max-w-7xl mx-auto">
-        
+        <FirstLoginModal
+          isOpen={showFirstLoginModal}
+          onClose={() => setShowFirstLoginModal(false)}
+        />
+
         {/* Banner de Boas-Vindas */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-2xl bg-linear-to-r from-emerald-500/10 via-slate-900/5 
         to-transparent border border-emerald-500/20">

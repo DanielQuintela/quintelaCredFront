@@ -7,6 +7,7 @@ export interface User {
     email: string
     role: 'ADMIN' | 'USER'
     status: 'ACTIVE' | 'INACTIVE'
+    first_login: boolean
   }
 }
 
